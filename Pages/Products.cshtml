@@ -1,0 +1,24 @@
+@page
+@model ProductsModel
+@{
+    ViewData["Title"] = "Products page";
+}
+
+@for (int i  = 0; i < 10; i++)
+{
+    <div class="card m-3">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img style="width: 9em;"  src="https://cdn0.iconfinder.com/data/icons/creative-business-and-development/512/package_products_food_branding_merchandise_packaging_marketing_design_box_bottles_commercial_identity_flat_design_icon-512.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre del producto</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                        content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
