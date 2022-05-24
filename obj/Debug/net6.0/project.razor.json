@@ -16303,6 +16303,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\Shoppings.cshtml",
+      "TargetPath": "Pages\\Shoppings.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\Products.cshtml",
       "TargetPath": "Pages\\Products.cshtml",
       "FileKind": "mvc"
@@ -16310,6 +16315,11 @@
     {
       "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\Index.cshtml",
       "TargetPath": "Pages\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\Product.cshtml",
+      "TargetPath": "Pages\\Product.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -16330,6 +16340,16 @@
     {
       "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\Error.cshtml",
       "TargetPath": "Pages\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\Favorites.cshtml",
+      "TargetPath": "Pages\\Favorites.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\josue\\OneDrive\\Documentos\\GitHub\\WaveShopClient\\Pages\\ProductForm.cshtml",
+      "TargetPath": "Pages\\ProductForm.cshtml",
       "FileKind": "mvc"
     },
     {

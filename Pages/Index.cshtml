@@ -4,6 +4,14 @@
   ViewData["Title"] = "Home page";
 }
 
+<div class="container-fuild d-flex align-items-center justify-content-center"
+  style="background-color: #3b51b1; align-items: center; text-align: center;">
+  <form class="container d-flex m-2">
+    <input class="form-control me-2" type="search" placeholder="Encuentra lo que estas buscando!" aria-label="Search">
+    <button class="btn btn-outline-light" type="submit" asp-page="/Products">Buscar</button>
+  </form>
+</div>
+
 <div id="carouselExampleDark" class="container-fuid carousel carousel-dark slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true"

@@ -1,0 +1,159 @@
+@page
+@model ProductModel
+@{
+    ViewData["Title"] = "Product page";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow p-3 rounded">
+                <div class="card-header">
+                    <h4 class="card-title mb-5">Estuche de maquillaje con equipo de sombras de varios color XML-3C</h4>
+                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="10000">
+                                <img src="https://th.bing.com/th/id/OIP.qcdsMk2RRgLyEjYxu9sFdwHaFj?pid=ImgDet&rs=1"
+                                    class="d-block w-50" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <img src="https://th.bing.com/th/id/OIP.qcdsMk2RRgLyEjYxu9sFdwHaFj?pid=ImgDet&rs=1"
+                                    class="d-block w-50" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://th.bing.com/th/id/OIP.qcdsMk2RRgLyEjYxu9sFdwHaFj?pid=ImgDet&rs=1"
+                                    class="d-block w-50" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container-fluid d-flex">
+                        <span class="material-icons m-2">
+                            thumb_down_alt
+                        </span>
+                        <small class="text-muted mt-2 me-3">500 likes</small>
+                        <span class="material-icons m-2 ms-4">
+                            thumb_up_alt
+                        </span>
+                        <small class="text-muted mt-2">500 dislikes</small>
+                        <small class="text-muted ms-4 mt-2">20 unidades vendidas</small>
+                    </div>
+                    <label for="" class="fs-1">$ 300.50</label>
+                    <div class="row">
+                        <div class="col-md-6 d-grid">
+                            <button class="btn btn-primary btn-block mt-2 mb-2">Comprar</button>
+                        </div>
+                        <div class="col-md-6 d-grid">
+                            <button class="btn btn-outline-primary d-block mt-2 mb-2">Agregar al carrito</button>
+                        </div>
+                    </div>
+                    <h5 class="text mt-3">Características</h5>
+                    <table class="table table-striped table-hover mt-3">
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="col-4">Unidades disponibles</th>
+                                <td>85</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="col-4">Precio por unidad</th>
+                                <td>$450.50</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="col-4">Fecha de publicación</th>
+                                <td>12 de mayo del 2022</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="col-4">País</th>
+                                <td>México</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="col-4">Ubicación</th>
+                                <td>Xalapa mérdida</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5 class="text mt-5">Descripción</h5>
+                    <hr class="my-4">
+                    <p style="text-align: justify;">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae commodi consectetur autem
+                        nobis,
+                        sit, sequi aut reiciendis dolores eligendi nisi saepe delectus cumque beatae tempore nihil
+                        temporibus
+                        molestias ratione neque. <br> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt
+                        quos,
+                        pariatur perspiciatis iste similique voluptas eligendi accusantium in impedit modi eos
+                        explicabo,
+                        vitae
+                        itaque cupiditate quae laudantium ut ratione. Dolores?
+                    </p>
+                    <h5 class="text mt-5">Infromación del vendedor</h5>
+                    <hr class="my-4">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="col-6">Nombre de usuario</th>
+                                <td>Juan pablo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="col-6">Reputación</th>
+                                <td>Buena</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="col-6">Teléfono</th>
+                                <td>228478965</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow p-3 rounded">
+                <div class="container-fuild m-3">
+                    <label class="text mb-1" for="staticEmail2">Escribe un comentario</label>
+                    <form class="row">
+                        <div class="col-10">
+                            <textarea type="text" class="form-control" id="inputPassword2"
+                                placeholder="Comentario"></textarea>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary">Publicar</button>
+                        </div>
+                    </form>
+                </div>
+                <hr class="my-4">
+                @for (int i = 0; i < 10; i++)
+                {
+                    <div class="card m-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Esta super waw</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Por: JosuéSA</h6>
+                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores porro,
+                                placeat
+                                ipsum vel quam sunt. Aut, ipsa ad officia aliquam, repellat soluta cumque id quod numquam et
+                                fuga
+                                similique obcaecati!</p>
+                            <a href="#" class="card-link">Like</a>
+                            <a href="#" class="card-link">Dislike</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
