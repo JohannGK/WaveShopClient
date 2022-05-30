@@ -19,34 +19,67 @@
     img {
         width: 7em;
     }
+
+    a{
+        color: black;
+        text-decoration: none;
+    }
 </style>
 
+<div class="container-fuild d-flex align-items-center justify-content-center"
+    style="background-color: #3b51b1; align-items: center; text-align: center;">
+    <form class="container d-flex m-2">
+        <input name="searchTxt" value="@Model.SearchValue" class="form-control me-2" type="search"
+            placeholder="Encuentra lo que estas buscando!" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Buscar</button>
+    </form>
+</div>
+
 <div class="container">
-    @for (int i = 0; i < 10; i++)
-    {
-        <div class="card m-3 rounded">
-            <div class="row g-0">
-                <div class="col-md-2">
-                    <img src="https://cdn0.iconfinder.com/data/icons/creative-business-and-development/512/package_products_food_branding_merchandise_packaging_marketing_design_box_bottles_commercial_identity_flat_design_icon-512.png"
-                    class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body m-0 p-0">
-                        <h5 class="card-title mb-0">Nombre del producto</h5>
-                        <small style="color: blue;">Cantidad disponible: [Cantidad]</small>
-                        <p id="productDescription" class="card-text" style="text-align: justify;">Descripción: This is a
-                            wider card with supporting
-                            text
-                            below as a natural lead-in to additional
-                            content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Última actualización [Fecha]</small></p>
+    @{
+        var products = Model.ProductsList;
+        if (products == null)
+        {
+            <div class="container" style="text-align: center;">
+                <img src="https://cdn.dribbble.com/users/2919618/screenshots/7000775/error.gif"
+                class="img-fluid rounded-start w-100" alt="...">
+                <h4 class="text fs-10">El sistema se encuentra presentando inconvenientes</h4>
+            </div>
+        }
+        else if (products.Count() > 0)
+        {
+            foreach (var product in products)
+            {
+                <div class="productCard card m-3 rounded">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            <img src=@product.Product_Images.ToList()[0].Url class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body m-0 p-0">
+                                <a asp-page="/Product" asp-route-ID="@product.Id"><h5 class="card-title mb-0">#@product.Id @product.Name</h5></a>
+                                <small style="color: blue;">Cantidad disponible: @product.StockQuantity</small>
+                                <p id="productDescription" class="card-text description" style="text-align: justify;">Descripción:
+                                    @product.Description</p>
+                                <p class="card-text"><small class="text-muted">Última actualización: @product.LastUpdate</small></p>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <label class="text-center fs-3">@product.UnitPrice</label>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-2" style="text-align: right;">
-                    <label class="text-center fs-3">[Costo]</label>
-                </div>
+            }
+        }
+        else
+        {
+            <div class="container" style="text-align: center;">
+                <img src="https://i.pinimg.com/originals/5d/35/e3/5d35e39988e3a183bdc3a9d2570d20a9.gif"
+                class="img-fluid rounded-start w-100" alt="...">
+                <h4 class="text fs-10">Lo sentimos, no hay resultados de búsqueda</h4>
             </div>
-        </div>
+        }
+
     }
 </div>
 
@@ -54,13 +87,17 @@
 @section Scripts {
 <script>
     $(document).ready(() => {
-        $('#productDescription').text(function () {
-            var content = $(this).text();
-            if (content.length > 280)
-                return content.substring(0,280) + '...';
-            else
-                return $(this).text();
+        const limitTextDescription = 240;
+        $('.description').each(function () {
+            $(this).text(function () {
+                var content = $(this).text();
+                if (content.length > limitTextDescription)
+                    return content.substring(0, limitTextDescription) + '...';
+                else
+                    return $(this).text();
+            });
         });
+
     });
 </script>
 }

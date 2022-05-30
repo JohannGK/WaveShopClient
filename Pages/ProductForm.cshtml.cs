@@ -1,19 +1,17 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WaveShopClient.Pages;
 
-namespace WaveShopClient.Pages;
-
-public class ShoppingsModel : PageModel
+public class ProductFormModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
 
-    public ShoppingsModel(ILogger<IndexModel> logger)
+    public ProductFormModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
     }
 
-    public async void OnGet()
+    public void OnGet()
     {
 
     }

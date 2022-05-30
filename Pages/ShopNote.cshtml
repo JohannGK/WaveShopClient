@@ -1,0 +1,101 @@
+@page
+@model ShopNoteModel
+@{
+    ViewData["Title"] = "Shopping page";
+}
+
+@{
+    if (Model.ViewType == "Request")
+    {
+        <div class="container">
+            <form method="post" action="" class="form">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8">
+                                <h2 class="text fs-2">Compra</h2>
+                            </div>
+                            <div class="col-4">
+                                <label for="" class="text fs-5 pt-1">Costo total: <b>$ 77.50</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="">Id de comprador: </label>
+                            </div>
+                            <div class="col-8">
+                                <label for=""># 3425</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="">Nombre de comprador: </label>
+                            </div>
+                            <div class="col-8">
+                                <label for="">josué sangabriel alarcón</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="">Fecha de compra:</label>
+                            </div>
+                            <div class="col-8">
+                                <label for="">@DateTime.Now</label>
+                            </div>
+                        </div>
+                        <input value="@Model.ShopType" name="tipoCompra" hidden>
+                        <input value="@Model.Client.Id" name="idUser" hidden>
+                        <input value="carrito" name="idProduct" hidden>
+
+                        <table class="table table-hover mt-4">
+                            <thead>
+                                <tr>
+                                    <th>#Id</th>
+                                    <th>Nombre de producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Subtotal</th>
+                                    <th>Vendedor</th>
+                                    <th>$ x Unidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>23</td>
+                                    <td>Centro de mesa</td>
+                                    <td>12</td>
+                                    <td>$ 44.50</td>
+                                    <td>Josué Alarcón</td>
+                                    <td>13.50</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-6 d-grid">
+                                <button type="submit" class="btn btn-outline-primary btn-block mt-2 mb-2">Cancelar</button>
+                            </div>
+                            <div class="col-md-6 d-grid">
+                                <button type="submit" class="btn btn-primary d-block mt-2 mb-2">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="container"> 
+            <div class="card mt-4">
+                <div class="card-body">
+                    <img src="https://i.pinimg.com/originals/48/a2/93/48a293976e2c10478e2eebf754ee8d25.gif" class="img-fluid" alt="">
+                    <h5>Compra exitosa</h5>
+                    <p>Ahora puedes realizar el pago poniendote de acuerdo con el vendedor</p>
+                </div>
+            </div>
+        </div>
+    }
+}

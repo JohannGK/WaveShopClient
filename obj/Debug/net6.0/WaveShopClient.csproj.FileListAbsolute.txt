@@ -24,3 +24,7 @@ C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\obj\Debug\net6.0\WaveSh
 C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\obj\Debug\net6.0\ref\WaveShopClient.dll
 C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\obj\Debug\net6.0\WaveShopClient.pdb
 C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\obj\Debug\net6.0\WaveShopClient.genruntimeconfig.cache
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\obj\Debug\net6.0\WaveShopClient.csproj.CopyComplete
