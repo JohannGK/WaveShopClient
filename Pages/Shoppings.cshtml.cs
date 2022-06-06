@@ -21,10 +21,11 @@ public class ShoppingsModel : PageModel
         _logger = logger;
     }
 
-    public async Task OnGet(string ID)
+    public async Task OnGet()
     {
         var client = GetPreparedClient("https://localhost:7278/api/Orders/");
-        HttpResponseMessage response = await client.GetAsync($"{ID}");
+        var id = HttpContext.Session.GetString("id");
+        HttpResponseMessage response = await client.GetAsync($"{id}");
         if (response.IsSuccessStatusCode)
             ProductsSelected = await response.Content.ReadAsAsync<List<Product>>();
         else

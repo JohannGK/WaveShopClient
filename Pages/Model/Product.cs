@@ -30,6 +30,7 @@ public partial class Product
     public int ShoppedTimes { get; set; }
     public int CommentsNumber { get; set; }
     public DateTime LastUpdate { get; set; }
+    public string? VendorUsername { get; set; }
 
     public virtual ICollection<Comment> Comments { get; set; }
     public virtual ICollection<Favorite> Favorites { get; set; }

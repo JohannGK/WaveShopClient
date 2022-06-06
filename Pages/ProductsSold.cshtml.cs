@@ -6,7 +6,7 @@ using WaveShopClient.Pages.Model;
 
 namespace WaveShopClient.Pages;
 
-public class ShoppingCartModel : PageModel
+public class ProductsSoldModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
 
@@ -15,7 +15,7 @@ public class ShoppingCartModel : PageModel
     [BindProperty]
     public string View { get; set; } = "Request";
 
-    public ShoppingCartModel(ILogger<IndexModel> logger)
+    public ProductsSoldModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
     }
@@ -24,7 +24,7 @@ public class ShoppingCartModel : PageModel
     {
         var ID = HttpContext.Session.GetString("id");
         View = "Request";
-        var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
+        var client = GetPreparedClient("https://localhost:7278/api/Orders/sold/");
         HttpResponseMessage response = await client.GetAsync($"{ID}");
         if (response.IsSuccessStatusCode)
             Products = await response.Content.ReadAsAsync<List<Product>>();

@@ -6,33 +6,45 @@ using WaveShopClient.Pages.Model;
 
 namespace WaveShopClient.Pages;
 
-public class ShoppingCartModel : PageModel
+public class ProductsSoldDetailsModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
 
     [BindProperty]
     public List<Product> Products { get; set; } = new List<Product>();
     [BindProperty]
-    public string View { get; set; } = "Request";
+    public Product ProductSelected { get; set; }
+    [BindProperty]
+    public string View { get; set; }
 
-    public ShoppingCartModel(ILogger<IndexModel> logger)
+    public ProductsSoldDetailsModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
     }
 
-    public async Task OnGet()
+    public async Task OnGet(string id)
     {
         var ID = HttpContext.Session.GetString("id");
-        View = "Request";
-        var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
-        HttpResponseMessage response = await client.GetAsync($"{ID}");
+        await GetProduct(id);
+        var client = GetPreparedClient("https://localhost:7278/api/Orders/sold/details/");
+        HttpResponseMessage response = await client.GetAsync($"{id}");
         if (response.IsSuccessStatusCode)
             Products = await response.Content.ReadAsAsync<List<Product>>();
+        View = "Request";
     }
 
     public async Task OnGetAddSuccess()
     {
         View = "AddSuccess";
+    }
+
+    private async Task<Product> GetProduct(string productId)
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/Products/");
+        HttpResponseMessage response = await client.GetAsync($"{productId}");
+        if (response.IsSuccessStatusCode)
+            ProductSelected = await response.Content.ReadAsAsync<Product>();
+        return ProductSelected;
     }
 
     public HttpClient? GetPreparedClient(string uri)

@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" asp-page="/Shoppings" asp-page-handler="show">
+                    <form id="formdata" name="formdata" method="post">
                         <div class="container-fluid d-flex">
                             <span class="material-icons m-2">
                                 thumb_down_alt
@@ -57,18 +57,18 @@
                         <label for="" class="fs-1">$ @Model.ProductSelected.UnitPrice</label>
                         <div class="input-group mt-4 mb-3">
                             <span class="input-group-text" id="basic-addon1">Cantidad</span>
-                            <input name="productQuantity" type="text" class="form-control" value="@Model.Quantity"
+                            <input id="productQuantity" name="productQuantity" type="number" class="form-control" value="@Model.Quantity"
                                 aria-label="Username" aria-describedby="basic-addon1">
                             <input name="idProduct" value="@Model.ProductSelected.Id" hidden>
-                            <input name="idUser" value="1" hidden>
-                            <input name="tipoCompra" value="Unitaria" hidden>
                         </div>
                         <div class="row">
                             <div class="col-md-6 d-grid">
-                                <button class="btn btn-primary btn-block mt-2 mb-2">Comprar</button>
+                                <button type="submit" asp-page-handler="BuyProduct"
+                                    class="btn btn-primary btn-block mt-2 mb-2">Comprar</button>
                             </div>
                             <div class="col-md-6 d-grid">
-                                <button type="submit" class="btn btn-outline-primary d-block mt-2 mb-2">Agregar al
+                                <button type="submit" asp-page-handler="AddShoppingCart"
+                                    class="btn btn-outline-primary d-block mt-2 mb-2">Agregar al
                                     carrito</button>
                             </div>
                         </div>
@@ -163,3 +163,12 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script>
+    $(document).ready(() => {
+
+    
+    });
+</script>
+}

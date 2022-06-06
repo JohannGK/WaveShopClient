@@ -1,0 +1,61 @@
+@page
+@model ProfileModel
+@{
+    ViewData["Title"] = "Profile page";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="text fs-4">Perfil</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
+                    <input name="userName" type="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" value="@Model.Client.UserName">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
+                    <input name="email" type="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" value="@Model.Client.Email">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                    <input name="passwordNew" value="@Model.Client.Password" type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1" class="form-label">Teléfono</label>
+                        <input name="phone" type="email" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" value="@Model.Client.Phone">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1" class="form-label">Fecha de nacimiento</label>
+                        <input name="birthDate" type="date" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" value="@Model.Client.BirthDay">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                    <textarea name="biography" class="form-control" id="exampleFormControlTextarea1"
+                        rows="3">@Model.Client.Description</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-grid">
+                        <button type="button" asp-page="/Index" class="btn btn-outline-primary mt-2">Salir</button>
+                    </div>
+                    <div class="col-md-6 d-grid">
+                        <button type="submit" asp-page-handler="EditProfile"
+                            class="btn btn-primary mt-2">Editar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <small class="text text-muted">Los datos de contacto ayudarán a que otros usuarios puedan comunicarse
+                contigo</small>
+        </div>
+    </div>
+</div>

@@ -5,95 +5,168 @@
 }
 
 @{
-    if (Model.ViewType == "Request")
+    if (Model.ShopType == "Carrito")
     {
         <div class="container">
-            <form method="post" action="" class="form">
-                <div class="card mt-5">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-8">
-                                <h2 class="text fs-2">Compra</h2>
-                            </div>
-                            <div class="col-4">
-                                <label for="" class="text fs-5 pt-1">Costo total: <b>$ 77.50</b></label>
-                            </div>
+            <div class="card mt-5">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <h2 class="text fs-2">Compra</h2>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="">Id de comprador: </label>
-                            </div>
-                            <div class="col-8">
-                                <label for=""># 3425</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="">Nombre de comprador: </label>
-                            </div>
-                            <div class="col-8">
-                                <label for="">josué sangabriel alarcón</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="">Fecha de compra:</label>
-                            </div>
-                            <div class="col-8">
-                                <label for="">@DateTime.Now</label>
-                            </div>
-                        </div>
-                        <input value="@Model.ShopType" name="tipoCompra" hidden>
-                        <input value="@Model.Client.Id" name="idUser" hidden>
-                        <input value="carrito" name="idProduct" hidden>
-
-                        <table class="table table-hover mt-4">
-                            <thead>
-                                <tr>
-                                    <th>#Id</th>
-                                    <th>Nombre de producto</th>
-                                    <th>Cantidad</th>
-                                    <th>Subtotal</th>
-                                    <th>Vendedor</th>
-                                    <th>$ x Unidad</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>23</td>
-                                    <td>Centro de mesa</td>
-                                    <td>12</td>
-                                    <td>$ 44.50</td>
-                                    <td>Josué Alarcón</td>
-                                    <td>13.50</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-6 d-grid">
-                                <button type="submit" class="btn btn-outline-primary btn-block mt-2 mb-2">Cancelar</button>
-                            </div>
-                            <div class="col-md-6 d-grid">
-                                <button type="submit" class="btn btn-primary d-block mt-2 mb-2">Comprar</button>
-                            </div>
+                        <div class="col-4">
+                            <label for="" class="text fs-5 pt-1">Costo total: <b>$ @Model.Total</b></label>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="">Id de comprador: </label>
+                        </div>
+                        <div class="col-8">
+                            <label for=""># @Model.Client.Id</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="">Nombre de comprador: </label>
+                        </div>
+                        <div class="col-8">
+                            <label for="">@Model.Client.UserName</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="">Fecha de compra:</label>
+                        </div>
+                        <div class="col-8">
+                            <label for="">@DateTime.Now</label>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover mt-4">
+                        <thead>
+                            <tr>
+                                <th>#Id</th>
+                                <th>Nombre de producto</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Vendedor</th>
+                                <th>$ x Unidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.ProductsSelected)
+                            {
+                                var subtotal = @product.StockQuantity * @product.UnitPrice;
+                                <tr>
+                                    <td>@product.Id</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.StockQuantity</td>
+                                    <td>$ @subtotal</td>
+                                    <td>@product.VendorUsername</td>
+                                    <td>@product.UnitPrice</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 d-grid">
+                            <a asp-page="/Index" class="btn btn-outline-primary btn-block mt-2 mb-2">Cancelar</a>
+                        </div>
+                        <div class="col-md-6 d-grid">
+                            <form name="formdataCard" id="formdataCard" method="post">
+                                <button type="submit" asp-page-handler="ShopCart" class="btn btn-primary d-block mt-2 mb-2">Comprar carrito</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     }
-    else
+    else if (Model.ShopType == "Unitaria")
     {
-        <div class="container"> 
-            <div class="card mt-4">
+        <div class="container">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <h2 class="text fs-2">Compra</h2>
+                        </div>
+                        <div class="col-4">
+                            <label for="" class="text fs-5 pt-1">Costo total: <b>$ @Model.Total</b></label>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <img src="https://i.pinimg.com/originals/48/a2/93/48a293976e2c10478e2eebf754ee8d25.gif" class="img-fluid" alt="">
-                    <h5>Compra exitosa</h5>
-                    <p>Ahora puedes realizar el pago poniendote de acuerdo con el vendedor</p>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="">Id de comprador: </label>
+                        </div>
+                        <div class="col-8">
+                            <label for=""># @Model.Client.Id</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="">Nombre de comprador: </label>
+                        </div>
+                        <div class="col-8">
+                            <label for="">@Model.Client.UserName</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="">Fecha de compra:</label>
+                        </div>
+                        <div class="col-8">
+                            <label for="">@DateTime.Now</label>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover mt-4">
+                        <thead>
+                            <tr>
+                                <th>#Id</th>
+                                <th>Nombre de producto</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Vendedor</th>
+                                <th>$ x Unidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var subtotal = Model.ProductSelected.StockQuantity * Model.ProductSelected.UnitPrice;
+                                <tr>
+                                    <td>@Model.ProductSelected.Id</td>
+                                    <td>@Model.ProductSelected.Name</td>
+                                    <td>@Model.ProductSelected.StockQuantity</td>
+                                    <td>$ @subtotal</td>
+                                    <td>@Model.ProductSelected.VendorUsername</td>
+                                    <td>@Model.ProductSelected.UnitPrice</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 d-grid">
+                            <a asp-page="/Index" class="btn btn-outline-primary btn-block mt-2 mb-2">Cancelar</a>
+                        </div>
+                        <div class="col-md-6 d-grid">
+                            <form name="formdata" id="formdata" method="post">
+                                <input type="hidden" name="id" value="@Model.ProductSelected.Id">
+                                <input type="hidden" name="quantity" value="@Model.ProductSelected.StockQuantity">
+                                <button type="submit" asp-page-handler="ShopProduct" class="btn btn-primary d-block mt-2 mb-2">Comprar producto</button>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

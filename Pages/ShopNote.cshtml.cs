@@ -11,14 +11,11 @@ namespace WaveShopClient.Pages;
 public class ShopNoteModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-    [BindProperty]
     public List<Product> ProductsSelected { get; set; } = new List<Product>();
-    [BindProperty]
+    public Product ProductSelected { get; set; } = new Product();
     public User Client { get; set; } = new User();
-    [BindProperty]
-    public string ShopType { get; set; } = "Unitaria";
-    [BindProperty]
-    public string ViewType { get; set; } = "Success";
+    public string ShopType { get; set; }
+    public double Total { get; set; } = 0;
 
     public ShopNoteModel(ILogger<IndexModel> logger)
     {
@@ -27,44 +24,57 @@ public class ShopNoteModel : PageModel
 
     public void OnGet()
     {
-        ViewType = "Success";
     }
 
-    public async Task OnPostShow(string tipoCompra, string idUser, string idProduct = null, string productQuantity = null)
+    public async Task<IActionResult> OnPostShopProduct(string id, string quantity)
     {
-        
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            var idUser = HttpContext.Session.GetString("id");
+            var product = await GetProduct(id);
+            product.StockQuantity = Convert.ToInt32(quantity);
+            var client = GetPreparedClient("https://localhost:7278/api/Orders/buy/");
+            HttpResponseMessage response = await client.PostAsync(
+                $"{idUser}",
+                new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json")
+            );
+            if (response.IsSuccessStatusCode)
+                return RedirectToPage("./Shoppings", "ShopSuccess");
+            else
+                return Page();
+        }
+        return Page();
     }
 
-    public async Task OnPost(string tipoCompra, string idUser, string idProduct = null, string productQuantity = null)
+    public async Task<IActionResult> OnPostShopCart()
     {
-        ViewType = "Process";
-        if (tipoCompra == "Carrito")
-            await ShopShoppingCart(idUser);
-        else
-            await ShopProduct(idUser, idProduct, productQuantity);
-        RedirectToPage("./Shoppings");
-
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            var idUser = HttpContext.Session.GetString("id");
+            var client = GetPreparedClient("https://localhost:7278/api/Orders/");
+            HttpResponseMessage response = await client.PostAsync($"{idUser}", null);
+            if (response.IsSuccessStatusCode)
+                return RedirectToPage("./Shoppings", "ShopSuccess");
+            else
+                return Page();
+        }
+        return Page();
     }
 
-    private async Task ShopShoppingCart(string idUser)
+    public async Task OnGetShoppingCartShow()
     {
-        var client = GetPreparedClient("https://localhost:7278/api/Orders/");
-        HttpResponseMessage response = await client.PostAsync($"{idUser}", null);
-        if (!response.IsSuccessStatusCode)
-            throw new Exception("No fue posible comprar los productos del carrito");
+        await GetShoppingCart(HttpContext.Session.GetString("id"));
+        await GetUser(HttpContext.Session.GetString("id"));
+        ShopType = "Carrito";
     }
 
-    private async Task ShopProduct(string idUser, string idProduct, string quantity)
+    public async Task OnGetUnitProductShow(string id, string quantity)
     {
-        var client = GetPreparedClient("https://localhost:7278/api/Orders/buy/");
-        var product = await GetProduct(idProduct);
-        product.StockQuantity = Convert.ToInt32(quantity);
-        HttpResponseMessage response = await client.PostAsync(
-            $"{idUser}",
-            new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json")
-        );
-        if (!response.IsSuccessStatusCode)
-            throw new Exception("No fue posible comprar el producto");
+        await GetUser(HttpContext.Session.GetString("id"));
+        ProductSelected = await GetProduct(id);
+        ProductSelected.StockQuantity = Convert.ToInt32(quantity);
+        Total = ProductSelected.UnitPrice * ProductSelected.StockQuantity;
+        ShopType = "Unitaria";
     }
 
     private async Task<Product> GetProduct(string productId)
@@ -73,8 +83,31 @@ public class ShopNoteModel : PageModel
         var client = GetPreparedClient("https://localhost:7278/api/Products/");
         HttpResponseMessage response = await client.GetAsync($"{productId}");
         if (response.IsSuccessStatusCode)
+        {
             product = await response.Content.ReadAsAsync<Product>();
+        }
         return product;
+    }
+
+    private async Task<List<Product>> GetShoppingCart(string userId)
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
+        HttpResponseMessage response = await client.GetAsync($"{userId}");
+        if (response.IsSuccessStatusCode)
+        {
+            ProductsSelected = await response.Content.ReadAsAsync<List<Product>>();
+            ProductsSelected.ForEach(p => Total += p.UnitPrice * p.StockQuantity);
+        }
+        return ProductsSelected;
+    }
+
+    private async Task<User> GetUser(string userId)
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/Users/");
+        HttpResponseMessage response = await client.GetAsync($"{userId}");
+        if (response.IsSuccessStatusCode)
+            Client = await response.Content.ReadAsAsync<User>();
+        return Client;
     }
 
     public HttpClient? GetPreparedClient(string uri)

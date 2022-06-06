@@ -43,8 +43,8 @@
                         Cargar imagen
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupFile01">Video</label>
-                        <input type="file" class="form-control" id="inputGroupFile01">
+                        <label class="input-group-text" for="fileChooser">Images</label>
+                        <input type="file" class="form-control" id="fileChooser">
                     </div>
                     <div class="mb-3">
                         <label for="disabledTextInput" class="form-label">Nombre del producto</label>
@@ -102,3 +102,29 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+<script>
+    $(document).ready(() => {
+        $('#fileChooser').change(function () {
+            var names = [];
+            for (var i = 0; i < this.files.length; ++i) {
+                var F_name = this.files[i].name;
+                names.push(F_name);
+                var extension = F_name.replace(/^.*\./, '');
+                if (extension == "xml") {
+                    var rd = new FileReader();
+                    rd.onload = function (e) {
+                        var xmlDoc = $.parseXML(this.result);
+                        var $xml = $(xmlDoc);
+                        console.log($xml.find('title-group article-title').text());
+                    };
+                    rd.readAsText(this.files[i]);
+                }
+            }
+            alert(names);
+        });
+    });
+</script>
+}

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -26,14 +27,14 @@
                             <a class="nav-link text-light" asp-area="" asp-page="/Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Privacy">Privacidad</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/ProductsSold">Ventas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse justify-content-end">
                     <ul class="navbar-nav">
                         <div class="nav-item">
-                            <a asp-page="/ShoppingCart">
+                            <a asp-page="/ShoppingCart" asp-route-ID="2">
                                 <span class="nav-link material-icons">
                                     shopping_cart
                                 </span>
@@ -54,7 +55,11 @@
                             </a>
                         </div>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="">Iniciar sesión</a>
+                            <a class="nav-link" asp-page="/Login" asp-route-view="Login">
+                                <span class="material-icons">
+                                    account_circle
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -75,8 +80,11 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

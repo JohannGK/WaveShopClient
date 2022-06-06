@@ -1,38 +1,38 @@
 using System.Net.Http.Headers;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WaveShopClient.Pages.Model;
 
 namespace WaveShopClient.Pages;
 
-public class ShoppingCartModel : PageModel
+public class ProfileModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-
     [BindProperty]
-    public List<Product> Products { get; set; } = new List<Product>();
+    public User Client { get; set; } = new User();
     [BindProperty]
-    public string View { get; set; } = "Request";
+    public string ViewType { get; set; } = "Request";
 
-    public ShoppingCartModel(ILogger<IndexModel> logger)
+    public ProfileModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
     }
 
     public async Task OnGet()
     {
-        var ID = HttpContext.Session.GetString("id");
-        View = "Request";
-        var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
-        HttpResponseMessage response = await client.GetAsync($"{ID}");
-        if (response.IsSuccessStatusCode)
-            Products = await response.Content.ReadAsAsync<List<Product>>();
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("username")))
+        {
+            var mail = HttpContext.Session.GetString("email");
+            var client = GetPreparedClient("https://localhost:7278/api/Users/mail/");
+            HttpResponseMessage response = await client.GetAsync($"{mail}");
+            if (response.IsSuccessStatusCode)
+                Client = await response.Content.ReadAsAsync<User>();
+        }
     }
 
-    public async Task OnGetAddSuccess()
+    public async Task OnPostEditProfile()
     {
-        View = "AddSuccess";
+
     }
 
     public HttpClient? GetPreparedClient(string uri)
@@ -55,5 +55,4 @@ public class ShoppingCartModel : PageModel
             return null;
         }
     }
-
 }

@@ -1,0 +1,108 @@
+@page
+@model ProductsSoldDetailsModel
+@{
+    ViewData["Title"] = "Products sold page";
+}
+
+<style>
+    .card:hover {
+        box-shadow: 10px 10px 5px palegoldenrod;
+        transition-duration: .3s;
+    }
+
+    .card {
+        transition-duration: .3s;
+        padding: 1em;
+        font-size: small;
+    }
+
+    img {
+        width: 7em;
+    }
+
+
+    .cmn-divfloat {
+        position: fixed !important;
+        bottom: 45px;
+        right: 15px;
+        z-index: 100;
+    }
+
+    .cmn-btncircle {
+        width: 250px !important;
+        height: 40px !important;
+        padding: 6px 0px;
+        border-radius: 15px;
+        font-size: 18px;
+        text-align: calc();
+    }
+</style>
+
+<div class="container mt-4">
+    @{
+        if (Model.View == "Request")
+        {
+            <div class="container">
+                <div class="card-header">
+                    <h2></h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover mt-4">
+                        <thead>
+                            <tr>
+                                <th>#Id</th>
+                                <th>Nombre del comprador</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Fecha</th>
+                                <th>$ x Unidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.Products)
+                            {
+                                var unit = @product.UnitPrice / @product.StockQuantity;
+                                <tr>
+                                    <td>@product.Id</td>
+                                    <td>@product.VendorUsername</td>
+                                    <td>@product.StockQuantity</td>
+                                    <td>$ @product.UnitPrice</td>
+                                    <td>@product.LastUpdate</td>
+                                    <td>@unit</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else if (Model.View == "AddSuccess")
+        {
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h1>Success </h1>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+@section Scripts {
+<script>
+    $(document).ready(() => {
+        $('#productDescription').text(function () {
+            var content = $(this).text();
+            if (content.length > 280)
+                return content.substring(0, 280) + '...';
+            else
+                return $(this).text();
+        });
+    });
+</script>
+}
