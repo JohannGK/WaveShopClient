@@ -6,14 +6,26 @@
 
 <style>
     .card:hover {
-        box-shadow: 10px 10px 5px lightgreen;
+        background-color: #eeeeee;
+        transform: scale(1.1, 1.1);
         transition-duration: .3s;
     }
 
     .card {
+        background-color: white;
+        transform: scale(1);
         transition-duration: .3s;
         padding: 1em;
         font-size: small;
+    }
+
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    
+    a:hover{
+        color: #302a76;
     }
 
     img {
@@ -28,15 +40,15 @@
             var products = Model.ProductsSelected;
             foreach (var product in products)
             {
-                <div class="card m-3 rounded">
+                <div class="card m-3 rounded shadow">
                     <div class="row g-0">
-                        <div class="col-md-2">
-                            <img src="https://cdn0.iconfinder.com/data/icons/creative-business-and-development/512/package_products_food_branding_merchandise_packaging_marketing_design_box_bottles_commercial_identity_flat_design_icon-512.png"
+                        <div class="col-md-2 p-3">
+                            <img style="width: 100%;" src="@product.Product_Images.ToList()[0].Url"
                         class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body m-0 p-0">
-                                <h5 class="card-title mb-0">@product.Name</h5>
+                                <a asp-page="/Product" asp-route-ID="@product.Id"><h5 class="card-title mb-0">@product.Name</h5></a>
                                 <small style="color: green;">Cantidad: @product.StockQuantity</small>
                                 <p id="productDescription" class="card-text" style="text-align: justify;">@product.Description</p>
                                 <p class="card-text"><small class="text-muted">Status de compra: @product.Status</small></p>
@@ -48,24 +60,6 @@
                     </div>
                 </div>
             }
-        }
-        else
-        {
-            <div class="container">
-                <div class="card mt-5">
-                    <img class="img-fluid w-100"
-                    src="https://cdn.dribbble.com/users/1507834/screenshots/4293651/g_business_logo.gif"
-                    class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text"></p>
-                        <form method="get">
-                            <a asp-page="/Shoppings" class="btn btn-primary">Ver carrito</a>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
         }
 
     }

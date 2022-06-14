@@ -20,7 +20,7 @@ public class ProductsModel : PageModel
         _logger = logger;
     }
 
-    public async Task<HttpClient> GetPreparedClient()
+    public HttpClient? GetPreparedClient()
     {
         try
         {
@@ -35,23 +35,35 @@ public class ProductsModel : PageModel
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return null;
         }
     }
 
-    public async Task OnGet(string searchTxt)
+    public async Task<ActionResult> OnGet(string searchTxt)
     {
         SearchValue = searchTxt;
-        var client = await GetPreparedClient();
-        if (client != null)
+        try
         {
-            HttpResponseMessage response = await client.GetAsync($"-1/{searchTxt}");
-            if (response.IsSuccessStatusCode)
+            var client = GetPreparedClient();
+            if (client != null)
             {
-                ProductsList = await response.Content.ReadAsAsync<List<Product>>();
+                HttpResponseMessage response = await client.GetAsync($"-1/{searchTxt}");
+                if (response.IsSuccessStatusCode)
+                    ProductsList = await response.Content.ReadAsAsync<List<Product>>();
+                else
+                    throw new Exception("500");
+                return Page();
             }
+            else
+            {
+                throw new Exception("500");
+            }
+        }
+        catch (Exception ex)
+        {
+            return RedirectToPage("./Error", string.Empty, new { code = int.Parse(ex.Message) });
         }
     }
 

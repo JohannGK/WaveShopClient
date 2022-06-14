@@ -20,19 +20,32 @@ public class ProductsSoldModel : PageModel
         _logger = logger;
     }
 
-    public async Task OnGet()
+    public async Task<ActionResult> OnGet()
     {
-        var ID = HttpContext.Session.GetString("id");
-        View = "Request";
-        var client = GetPreparedClient("https://localhost:7278/api/Orders/sold/");
-        HttpResponseMessage response = await client.GetAsync($"{ID}");
-        if (response.IsSuccessStatusCode)
-            Products = await response.Content.ReadAsAsync<List<Product>>();
-    }
-
-    public async Task OnGetAddSuccess()
-    {
-        View = "AddSuccess";
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            try
+            {
+                var ID = HttpContext.Session.GetString("id");
+                View = "Request";
+                var client = GetPreparedClient("https://localhost:7278/api/Orders/sold/");
+                HttpResponseMessage response = await client.GetAsync($"{ID}");
+                if (response.IsSuccessStatusCode)
+                {
+                    Products = await response.Content.ReadAsAsync<List<Product>>();
+                    return Page();
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("./Error", string.Empty, new { code = 500 });
+            }
+        }
+        else
+        {
+            return RedirectToPage("./SignInRequire");
+        }
     }
 
     public HttpClient? GetPreparedClient(string uri)

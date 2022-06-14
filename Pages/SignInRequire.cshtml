@@ -1,0 +1,19 @@
+@page
+@model SignInRequireModel
+@{
+    ViewData["Title"] = "Login page";
+}
+
+
+<div class="container mt-5">
+    <h1 class="text-primary">No tan rapido McQueen!.</h1>
+    <h2 class="text-dark">Tu sesión ha expirado o no has iniciado sesión aún.</h2>
+
+    <p>
+        Tranquilo, tenemos la solución, da click <a style="text-decoration: none;" asp-page="/Login" asp-route-view="Login"><strong>Aqui</strong></a>
+        para iniciar sesión.
+    </p>
+
+    <img class="img-fluid" src="https://cdn.dribbble.com/users/2901016/screenshots/7306420/media/ab692c785f4ca2aebf6fd85f0542830f.gif" alt="">
+
+</div>

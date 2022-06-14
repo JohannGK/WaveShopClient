@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,46 +16,46 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-0">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light box-shadow mb-0">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">WaveShop</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Inicio</a>
+                            <a class="nav-link" asp-area="" asp-page="/Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/ProductsSold">Ventas</a>
+                            <a class="nav-link" asp-area="" asp-page="/ProductsSold">Ventas</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse justify-content-end">
                     <ul class="navbar-nav">
-                        <div class="nav-item">
+                        <li class="nav-item">
                             <a asp-page="/ShoppingCart" asp-route-ID="2">
                                 <span class="nav-link material-icons">
                                     shopping_cart
                                 </span>
                             </a>
-                        </div>
-                        <div class="nav-item">
+                        </li>
+                        <li class="nav-item">
                             <a asp-page="/Shoppings">
                                 <span class="nav-link material-icons">
                                     shopping_bag
                                 </span>
                             </a>
-                        </div>
-                        <div class="nav-item">
+                        </li>
+                        <li class="nav-item">
                             <a asp-page="/Favorites">
                                 <span class="nav-link material-icons">
                                     favorite
                                 </span>
                             </a>
-                        </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-page="/Login" asp-route-view="Login">
                                 <span class="material-icons">

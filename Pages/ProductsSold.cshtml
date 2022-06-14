@@ -6,11 +6,14 @@
 
 <style>
     .card:hover {
-        box-shadow: 10px 10px 5px palegoldenrod;
+        background-color: #eeeeee;
+        transform: scale(1.1, 1.1);
         transition-duration: .3s;
     }
 
     .card {
+        background-color: white;
+        transform: scale(1);
         transition-duration: .3s;
         padding: 1em;
         font-size: small;
@@ -20,12 +23,18 @@
         width: 7em;
     }
 
+    a {
+        color: blue;
+        text-decoration: none;
+    }
+
 
     .cmn-divfloat {
         position: fixed !important;
         bottom: 45px;
         right: 15px;
         z-index: 100;
+        F
     }
 
     .cmn-btncircle {
@@ -51,16 +60,17 @@
             var products = @Model.Products;
             foreach (var p in products)
             {
-                <div class="card m-3 rounded">
+                <div class="card m-3 rounded shadow">
                     <div class="row g-0">
-                        <div class="col-md-2">
-                            <img src="https://cdn0.iconfinder.com/data/icons/creative-business-and-development/512/package_products_food_branding_merchandise_packaging_marketing_design_box_bottles_commercial_identity_flat_design_icon-512.png"
+                        <div class="col-md-2 p-3">
+                            <img style="width: 100%;" src="@p.Product_Images.ToList()[0].Url"
                         class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body m-0 p-0">
-                                <h5 class="card-title mb-0">@p.Name</h5>
-                                <a asp-page="/ProductSoldDetails" asp-route-id="@p.Id"><small>Cantidad de unidades vendidas: @p.ShoppedTimes</small></a>
+                                <a asp-page="/ProductForm" asp-route-idProduct="@p.Id" asp-page-handler="Edit" style="color: black;"> <h5 class="card-title mb-0">@p.Name</h5> </a>
+                                <a asp-page="/ProductSoldDetails" asp-route-id="@p.Id"><small>Cantidad de unidades vendidas:
+                                        @p.ShoppedTimes</small></a>
                                 <p id="productDescription" class="card-text" style="text-align: justify;">@p.Description</p>
                                 <p class="card-text"><small class="text-muted">Última actualización: @p.LastUpdate</small></p>
                             </div>
@@ -74,19 +84,6 @@
                     </div>
                 </div>
             }
-        }
-        else if (Model.View == "AddSuccess")
-        {
-            <div class="container">
-                <div class="card">
-                    <div class="card-header">
-                        <h1>Success </h1>
-                    </div>
-                    <div class="card-body">
-
-                    </div>
-                </div>
-            </div>
         }
     }
 </div>

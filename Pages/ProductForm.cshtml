@@ -4,126 +4,264 @@
     ViewData["Title"] = "Product page";
 }
 
-<div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header">
-            <label class="text fs-2" for="">Detalles del producto</label>
-        </div>
-        <div class="card-body">
-            <div id="carouselExampleControls" class="carousel slide mb-1" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <video width="500" height="300" controls>
-                            <source src="..." type="video/mp4" />
-                        </video>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://cdn4.iconfinder.com/data/icons/SUPERVISTA/business/png/400/benchmarking.png"
-                            class="d-block " alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://cdn4.iconfinder.com/data/icons/SUPERVISTA/business/png/400/benchmarking.png"
-                            class="d-block" alt="...">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-            <form>
-                <fieldset>
-                    <div class="btn btn-outline-primary mb-5">
-                        Cargar imagen
-                    </div>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="fileChooser">Images</label>
-                        <input type="file" class="form-control" id="fileChooser">
-                    </div>
-                    <div class="mb-3">
-                        <label for="disabledTextInput" class="form-label">Nombre del producto</label>
-                        <input type="text" id="disabledTextInput" class="form-control"
-                            placeholder="Ejemplo: Compresas de viento para manigueta XM312">
-                    </div>
-                    <div class="mb-3 row">
-                        <div class="col-md-8">
-                            <label for="disabledTextInput" class="form-label">Ubicación</label>
-                            <input type="text" id="disabledTextInput" class="form-control"
-                                placeholder="Ejemplo: Prolongación cariillo puerto">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">País</label>
-                            <input type="text" id="disabledTextInput" class="form-control"
-                                placeholder="Ejemplo: México">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">Precio por unidad</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">$</span>
-                                <input type="text" class="form-control" placeholder="100.00" aria-label="Username"
-                                    aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">Unidades</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">#</span>
-                                <input type="text" class="form-control" placeholder="42" aria-label="Username"
-                                    aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">Status</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Visible</option>
-                                <option value="1">Oculto</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="disabledTextInput" class="form-label">Descripción</label>
-                        <textarea type="text" id="disabledTextInput" class="form-control"
-                            placeholder="Ejemplo: Descripción del producto..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-                </fieldset>
-            </form>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">El producto va a poder ser visto por cualquier usuario</small>
-        </div>
-    </div>
-</div>
+<style>
+    .error {
+        color: red;
+    }
 
+    .alert {
+        margin-bottom: 1em;
+        height: 30px;
+        line-height: 30px;
+        padding: 0px 15px;
+    }
+
+    .container-img {
+        position: relative;
+        display: inline-block;
+        width: 7em;
+        height: 5em;
+    }
+
+    .image {
+        opacity: 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        transition: .5s ease;
+        backface-visibility: hidden;
+    }
+
+    .middle {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .container-img:hover .image {
+        opacity: 0.3;
+    }
+
+    .container-img:hover .middle {
+        opacity: 1;
+    }
+
+    .text-img {
+        background-color: transparent;
+        color: black;
+        font-size: 16px;
+        padding: 16px 32px;
+    }
+</style>
+
+@{
+    if (@Model.View == "Form" || @Model.View == "FormUpdate")
+    {
+        <div class="container mt-5 col-sm-8 col-md-8 col-lg-4">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <label class="text fs-2">Detalles del producto</label>
+                </div>
+                <div class="card-body">
+
+                    <div class="container-fluid p-0 m-0" id="filesContainer">
+                        @if (@Model.View == "FormUpdate")
+                        {
+                            foreach (var pic in @Model.ProductToSell.Product_Images)
+                            {
+                                <div class="container-img mb-3">
+                                    <img src="@pic.Url" alt="Avatar" class="image rounded p-1 shadow" style="width:100%">
+                                    <div class="middle">
+                                        <span class="material-icons">cancel</span>
+                                        <input type="hidden" name="img" id="img" value="${path}">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <form name="formdata" id="formdata" method="post" enctype="multipart/form-data">
+                        <fieldset>
+                            <div class="input-group mb-3 ">
+                                <label class="input-group-text" for="fileChooser">Images</label>
+                                <input name="filesList" type="file" multiple class="form-control" id="filesList">
+                            </div>
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">Nombre del producto</label>
+                                <input name="productName" type="text" id="productName" class="form-control"
+                                placeholder="Ejemplo: Compresas de viento para manigueta XM312"
+                                value="@Model.ProductToSell.Name">
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-md-8">
+                                    <label for="location" class="form-label">Ubicación</label>
+                                    <input name="location" type="text" id="location" class="form-control"
+                                    placeholder="Ejemplo: Prolongación cariillo puerto"
+                                    value="@Model.ProductToSell.Location">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="country" class="form-label">País</label>
+                                    <input name="country" type="text" id="country" class="form-control"
+                                    placeholder="Ejemplo: México" value="@Model.ProductToSell.Country">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-md-4">
+                                    <label for="disabledTextInput" class="form-label">Precio por unidad</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                        <input name="unitPrice" id="unitPrice" type="number" class="form-control"
+                                        value="@Model.ProductToSell.UnitPrice" placeholder="100.00" aria-label="Username"
+                                        aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="disabledTextInput" class="form-label">Unidades</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">#</span>
+                                        <input name="stock" id="stock" type="number" class="form-control" placeholder="42"
+                                        aria-label="Username" aria-describedby="basic-addon1"
+                                        value="@Model.ProductToSell.StockQuantity">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="satus" class="form-label">Status</label>
+                                    <select id="statusOption" class="form-select" aria-label="Default select example">
+                                        <option value="Visible" selected>Visible</option>
+                                        <option value="Oculto">Oculto</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="status" id="status" value="@Model.Status">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Descripción</label>
+                                <textarea name="description" id="description" type="text" class="form-control"
+                                placeholder="Ejemplo: Descripción del producto...">@Model.ProductToSell.Description</textarea>
+                            </div>
+                            @if (Model.View == "FormUpdate")
+                            {
+                                <button id="btnUpdate" asp-page-handler="Update" asp-route-ID="@Model.ProductToSell.Id"
+                        type="submit" class="btn btn-primary mt-3">Update</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                            }
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">El producto va a poder ser visto por cualquier usuario</small>
+                </div>
+            </div>
+        </div>
+    }
+
+}
 
 @section Scripts {
 <script>
     $(document).ready(() => {
-        $('#fileChooser').change(function () {
-            var names = [];
-            for (var i = 0; i < this.files.length; ++i) {
-                var F_name = this.files[i].name;
-                names.push(F_name);
-                var extension = F_name.replace(/^.*\./, '');
-                if (extension == "xml") {
-                    var rd = new FileReader();
-                    rd.onload = function (e) {
-                        var xmlDoc = $.parseXML(this.result);
-                        var $xml = $(xmlDoc);
-                        console.log($xml.find('title-group article-title').text());
-                    };
-                    rd.readAsText(this.files[i]);
+
+
+
+        $('#filesList').change(function () {
+            var files = $(this)[0].files;
+            $('#filesContainer').empty();
+            if (files.length > 0) {
+                var f;
+                for (var i = 0; f = files[i]; i++) {
+                    var path = URL.createObjectURL(f);
+                    var element =
+                        `<div class="container-img mb-3">
+                        <img src="${path}" alt="Avatar" class="image rounded p-1 shadow" style="width:100%">
+                        <div class="middle">
+                            <span class="material-icons">cancel</span>
+                            <input type="hidden" name="img" id="img" value="${path}">
+                        </div>
+                    </div>`;
+                    $('#filesContainer').append(element);
                 }
             }
-            alert(names);
+            $('.image').click(function () {
+                $(this).parent().remove();
+            });
+        });
+
+        $('#statusOption').change(function () {
+            @Model.Status = $(this).val();
+        });
+
+        $("#formdata").validate({
+            rules: {
+                productName: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 100
+                },
+                location: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                country: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                unitPrice: {
+                    required: true,
+                    number: true,
+                    min: 0.01
+                },
+                stock: {
+                    required: true,
+                    number: true,
+                    min: 1
+                },
+                description: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 500
+                }
+            },
+            messages: {
+                productName: {
+                    required: "El nombre del producto es requerido",
+                    minlength: "El nombre del producto debe tener un mínimo de 5 caracteres",
+                    maxlength: "El nombre del producto solo puede tener un máximo de 100 caracteres"
+                },
+                location: {
+                    required: "Se requiere la ubicacion del proveedor del producto",
+                    minlength: "La ubicación debe tener al menos 3 caracteres",
+                    maxlength: "La ubicación puede tener un máximo de hasta 100 caracteres"
+                },
+                country: {
+                    required: "El campo del país es requerido",
+                    minlength: "El país donde se vende el producto debe tener un mínimo de 3 caracteres",
+                    maxlength: "El país puede tener hasta un máximo de 100 caracteres"
+                },
+                unitPrice: {
+                    required: "El precio del producto es requerido",
+                    number: "El precio del producto debe ser un número",
+                    min: "El precio del producto debe ser mayor a $0.01"
+                },
+                stock: {
+                    required: "La cantidad del producto es requerida",
+                    number: "La cantidad del producto debe estar en formato de numero",
+                    min: "Como mínimo la cantidad del producto debe ser de 1 unidad"
+                },
+                description: {
+                    required: "La descripción del producto es requerida",
+                    minlength: "Como mínimo la descripción debe tener 5 caracteres",
+                    maxlength: "Como máximo la descripción puede tener hasta 500 caracteres"
+                }
+            },
         });
     });
 </script>

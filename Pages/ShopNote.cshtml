@@ -7,8 +7,8 @@
 @{
     if (Model.ShopType == "Carrito")
     {
-        <div class="container">
-            <div class="card mt-5">
+        <div class="container col-sm-8 col-md-8 col-lg-8">
+            <div class="card shadow-lg">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
@@ -75,11 +75,11 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-6 d-grid">
-                            <a asp-page="/Index" class="btn btn-outline-primary btn-block mt-2 mb-2">Cancelar</a>
+                            <a asp-page="/Index" class="btn btn-outline-danger btn-block mt-2 mb-2">Cancelar</a>
                         </div>
                         <div class="col-md-6 d-grid">
                             <form name="formdataCard" id="formdataCard" method="post">
-                                <button type="submit" asp-page-handler="ShopCart" class="btn btn-primary d-block mt-2 mb-2">Comprar carrito</button>
+                                <button type="submit" style="width: 100%;" asp-page-handler="ShopCart" class="btn btn-primary d-block mt-2 mb-2">Comprar carrito</button>
                             </form>
                         </div>
                     </div>
@@ -89,8 +89,8 @@
     }
     else if (Model.ShopType == "Unitaria")
     {
-        <div class="container">
-            <div class="card mt-5">
+        <div class="container col-sm-8 col-md-8 col-lg-4">
+            <div class="card shadow-lg mt-5">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
@@ -156,13 +156,13 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-6 d-grid">
-                            <a asp-page="/Index" class="btn btn-outline-primary btn-block mt-2 mb-2">Cancelar</a>
+                            <a asp-page="/Index" class="btn btn-outline-danger btn-block mt-2 mb-2">Cancelar</a>
                         </div>
                         <div class="col-md-6 d-grid">
                             <form name="formdata" id="formdata" method="post">
                                 <input type="hidden" name="id" value="@Model.ProductSelected.Id">
                                 <input type="hidden" name="quantity" value="@Model.ProductSelected.StockQuantity">
-                                <button type="submit" asp-page-handler="ShopProduct" class="btn btn-primary d-block mt-2 mb-2">Comprar producto</button>
+                                <button type="submit" style="width: 100%;" asp-page-handler="ShopProduct" class="btn btn-primary d-block mt-2 mb-2">Comprar producto</button>
                             </form>
                         </div>
 

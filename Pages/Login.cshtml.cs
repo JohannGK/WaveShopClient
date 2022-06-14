@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WaveShopClient.Pages.Model;
 
 namespace WaveShopClient.Pages;
@@ -22,13 +23,15 @@ public class LoginModel : PageModel
     public string AdminCode { get; set; }
     [BindProperty]
     public string IsAdmin { get; set; } = "false";
+    [BindProperty]
+    public string ErrorMessage { get; set; } = string.Empty;
 
     public LoginModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
     }
 
-    public async Task<IActionResult> OnGet()
+    public IActionResult OnGet()
     {
         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("username")))
             return RedirectToPage("./Profile");
@@ -36,48 +39,74 @@ public class LoginModel : PageModel
             return Page();
     }
 
-    public async Task OnGetSignUp()
+    public void OnGetSignUp()
     {
         View = "SignUp";
+    }
+
+    private bool SetSession()
+    {
+        try
+        {
+            HttpContext.Session.Set("email", Encoding.UTF8.GetBytes(Client.Email));
+            HttpContext.Session.Set("password", Encoding.UTF8.GetBytes(Client.Password));
+            HttpContext.Session.Set("username", Encoding.UTF8.GetBytes(Client.UserName));
+            HttpContext.Session.Set("id", Encoding.UTF8.GetBytes(Client.Id.ToString()));
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     public async Task<IActionResult> OnPostSignInResponse(string email, string password)
     {
-        var client = GetPreparedClient("https://localhost:7278/api/Users/mail/");
-        HttpResponseMessage response = await client.GetAsync($"{email}");
-        if (response.IsSuccessStatusCode)
+        try
         {
-            Client = await response.Content.ReadAsAsync<User>();
-            if (Client.Password == password)
+            var client = GetPreparedClient("https://localhost:7278/api/Users/mail/");
+            HttpResponseMessage response = await client.GetAsync($"{email}");
+            if (response.IsSuccessStatusCode)
             {
-                HttpContext.Session.Set("email", Encoding.UTF8.GetBytes(email));
-                HttpContext.Session.Set("password", Encoding.UTF8.GetBytes(password));
-                HttpContext.Session.Set("username", Encoding.UTF8.GetBytes(Client.UserName));
-                HttpContext.Session.Set("id", Encoding.UTF8.GetBytes(Client.Id.ToString()));
-                return RedirectToPage("./Index");
+                Client = await response.Content.ReadAsAsync<User>();
+                if (Client.Password == password)
+                {
+                    if (SetSession())
+                        return RedirectToPage("./Index");
+                    else
+                        throw new Exception("401");
+                }
+                else
+                {
+                    IsCorrect = "No";
+                    Client.Email = email;
+                    Client.Password = password;
+                    return Page();
+                }
             }
             else
             {
-                IsCorrect = "No";
-                Client.Email = email;
-                Client.Password = password;
-                return Page();
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    IsCorrect = "No";
+                    Client.Email = email;
+                    Client.Password = password;
+                    return Page();
+                }
+                throw new Exception("500");
             }
         }
-        else
+        catch (Exception ex)
         {
-            IsCorrect = "No";
-            Client.Email = email;
-            Client.Password = password;
-            return Page();
+            return RedirectToPage("./Error", string.Empty, new { code = int.Parse(ex.Message) });
         }
 
     }
 
-    public async Task<IActionResult> OnPostSignUpResponse(string userNameNew, string emailNew, string passwordNew, string phone, string birthDate, string isAdmin, string biography, string adminCode)
+    private User GetObject(string userNameNew, string emailNew, string passwordNew, string phone, string birthDate, string isAdmin, string biography, string adminCode)
     {
-        View = "SignUp";
-        Client = new User()
+        TimeSpan t = DateTime.Now.Subtract(Convert.ToDateTime(birthDate));
+        User client = new User()
         {
             UserName = userNameNew,
             Email = emailNew,
@@ -88,29 +117,64 @@ public class LoginModel : PageModel
             UserType = isAdmin == "true" ? "Administrador" : "Usuario",
             Description = biography,
             Reputation = "Good",
-            Age = 23
-
+            Age = Convert.ToInt32(t.TotalDays / 365)
         };
-        var client = GetPreparedClient("https://localhost:7278/api/Users/");
-        HttpResponseMessage response = await client.PostAsync(
-            $"",
-            new StringContent(JsonConvert.SerializeObject(Client), Encoding.UTF8, "application/json")
-        );
-        if (response.IsSuccessStatusCode)
+        return client;
+    }
+
+    public async Task<IActionResult> OnPostSignUpResponse(string userNameNew, string emailNew, string passwordNew, string phone, string birthDate, string isAdmin, string biography, string adminCode)
+    {
+        try
         {
-            Client = await response.Content.ReadAsAsync<User>();
-            HttpContext.Session.Set("email", Encoding.UTF8.GetBytes(Client.Email));
-            HttpContext.Session.Set("password", Encoding.UTF8.GetBytes(Client.Password));
-            HttpContext.Session.Set("username", Encoding.UTF8.GetBytes(Client.UserName));
-            HttpContext.Session.Set("id", Encoding.UTF8.GetBytes(Client.Id.ToString()));
-            return RedirectToPage("./Index");
+            View = "SignUp";
+            Client = GetObject(userNameNew, emailNew, passwordNew, phone, birthDate, isAdmin, biography, adminCode);
+            CheckUserData(Client);
+            var client = GetPreparedClient("https://localhost:7278/api/Users/");
+            HttpResponseMessage response = await client.PostAsync(
+                $"",
+                new StringContent(JsonConvert.SerializeObject(Client), Encoding.UTF8, "application/json")
+            );
+            if (response.IsSuccessStatusCode)
+            {
+                Client = await response.Content.ReadAsAsync<User>();
+                if (SetSession())
+                    return RedirectToPage("./Index");
+                else
+                    throw new Exception("401");
+            }
+            else
+            {
+                IsCorrect = "No";
+                JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+                ErrorMessage = json["value"]["error"].ToString();
+                return Page();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            IsCorrect = "No";
-            return Page();
+            int code;
+            if (int.TryParse(ex.Message, out code))
+            {
+                return RedirectToPage("./Error", string.Empty, new { code = int.Parse(ex.Message) });
+            }
+            else
+            {
+                IsCorrect = "No";
+                ErrorMessage = ex.Message;
+                return Page();
+            }
         }
     }
+
+    private void CheckUserData(User user, string? adminCode = null)
+    {
+        if (user.Age < 18)
+            throw new Exception("Para registrarte debes tener al menos 18 años");
+        if (user.UserType == "Administrador")
+            if (adminCode == null || adminCode != "1324")
+                throw new Exception("Lo sentimos, el código de administrador no es correcto");
+    }
+
 
     public HttpClient? GetPreparedClient(string uri)
     {

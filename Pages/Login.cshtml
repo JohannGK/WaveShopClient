@@ -8,143 +8,161 @@
     .error {
         color: red;
     }
+
+    .card {
+        margin: 0 auto;
+        /* Added */
+        float: none;
+        /* Added */
+        margin-bottom: 10px;
+        /* Added */
+    }
 </style>
 
-
-@{
-    if (Model.View == "Login")
-    {
-        <div class="container mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="text fs-4">Inicar sesión</h1>
-                </div>
-                <div class="card-body">
-                    <form name="formdata" id="formdata" method="post">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico</label>
-                            <input name="email" value="@Model.Client.Email" type="email" class="form-control" id="email"
-                            aria-describedby="emailHelp">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input name="password" value="@Model.Client.Password" type="password" class="form-control"
-                            id="password">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 d-grid">
-                                <button type="submit" asp-page="/Index" class="btn btn-outline-primary mt-2">Cancelar</button>
+<div class="container-fluid p-5">
+    @{
+        if (Model.View == "Login")
+        {
+            <div class="container">
+                <div class="card shadow col-sm-8 col-md-8 col-lg-8">
+                    <div class="card-header">
+                        <img class="img-fluid rounded mb-3"
+                        src="https://cdn.dribbble.com/users/1147279/screenshots/5055958/dbbble.gif" alt="">
+                        <h1 class="text fs-4">Inicar sesión</h1>
+                    </div>
+                    <div class="card-body">
+                        <form name="formdata" id="formdata" method="post">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo electrónico *</label>
+                                <input name="email" value="@Model.Client.Email" type="email" class="form-control" id="email"
+                                aria-describedby="emailHelp">
                             </div>
-                            <div class="col-md-6 d-grid">
-                                <button type="submit" asp-page-handler="SignInResponse"
-                            class="btn btn-primary mt-2">Ingresar</button>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña *</label>
+                                <input name="password" value="@Model.Client.Password" type="password" class="form-control"
+                                id="password">
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <a asp-page="/Login" asp-route-handler="SignUp">Soy usuario nuevo</a>
-                    @if (Model.IsCorrect == "No")
-                    {
-                        <div class="alert alert-danger mt-4" role="alert">
-                            Verifica que el correo y la contraseña sean correctas
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    }
-    else if (Model.View == "SignUp")
-    {
-        <div class="container mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="text fs-4">Registrate</h1>
-                </div>
-                <div class="card-body">
-                    <form name="formdataNewUser" id="formdataNewUser" method="post">
-                        <div class="mb-3">
-                            <label for="userNameNew" class="form-label">Nombre de usuario</label>
-                            <input name="userNameNew" type="text" class="form-control" id="userNameNew"
-                            aria-describedby="emailHelp" value="@Model.Client.UserName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="emailNew" class="form-label">Correo electrónico</label>
-                            <input name="emailNew" type="email" class="form-control" id="emailNew" aria-describedby="emailHelp"
-                            value="@Model.Client.Email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="passwordNew" class="form-label">Contraseña</label>
-                            <input name="passwordNew" value="@Model.Client.Password" type="password" class="form-control"
-                            id="passwordNew">
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-md-6">
-                                <label for="phone" class="form-label">Teléfono</label>
-                                <input name="phone" type="phone" class="form-control" id="phone" aria-describedby="emailHelp"
-                                value="@Model.Client.Phone">
-                                <div id="emailHelp" class="form-text">Ejemplo</div>
+                            <div class="row">
+                                <div class="col-md-6 d-grid">
+                                    <a asp-page="/Index" class="btn btn-outline-danger mt-2">Cancelar</a>
+                                </div>
+                                <div class="col-md-6 d-grid">
+                                    <button type="submit" asp-page-handler="SignInResponse"
+                                class="btn btn-primary mt-2">Ingresar</button>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="birthDate" class="form-label">Fecha de nacimiento</label>
-                                <input name="birthDate" value="@Model.Client.BirthDay" type="date" class="form-control"
-                                id="birthDate" aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">Ejemplo</div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-page="/Login" style="text-decoration: none;" asp-route-handler="SignUp">Soy usuario nuevo</a>
+                        @if (Model.IsCorrect == "No")
+                        {
+                            <div class="alert alert-danger mt-4" role="alert">
+                                Verifica que el correo y la contraseña sean correctas
                             </div>
-                        </div>
-                        <input type="hidden" name="isAdmin" value="@Model.IsAdmin">
-                        <div class="mb-3">
-                            <label for="biography" class="form-label">Example textarea</label>
-                            <textarea name="biography" class="form-control" id="biography"
-                            rows="3">@Model.Client.Description</textarea>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input name="isAdmin" class="form-check-input" type="checkbox" id="isAdmin">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Soy administrador
-                            </label>
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text" id="basic-addon1">Código</span>
-                            <input name="adminCode" disabled id="adminCode" value="@Model.AdminCode" type="text"
-                            class="form-control" placeholder="Escribe el código de administrador" aria-label="Username"
-                            aria-describedby="basic-addon1">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 d-grid">
-                                <button type="button" asp-page="/Index" class="btn btn-outline-primary mt-2">Cancelar</button>
-                            </div>
-                            <div class="col-md-6 d-grid">
-                                <button type="submit" asp-page-handler="SignUpResponse"
-                            class="btn btn-primary mt-2">Registrarme</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <small class="text text-muted">Los datos de contacto ayudarán a que otros usuarios puedan comunicarse
-                        contigo</small>
-                    @if (Model.IsCorrect != "Yes")
-                    {
-                        <div class="alert alert-danger mt-4" role="alert">
-                            Los datos de entrada no son correctos, el nombre debe ser único
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+        else if (Model.View == "SignUp")
+        {
+            <div class="container shadow-lg col-sm-8 col-md-8 col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text fs-4">Registrate</h1>
+                    </div>
+                    <div class="card-body">
+                        <form name="formdataNewUser" id="formdataNewUser" method="post">
+                            <div class="mb-3">
+                                <label for="userNameNew" class="form-label">Nombre de usuario</label>
+                                <input name="userNameNew" type="text" class="form-control" id="userNameNew"
+                                aria-describedby="emailHelp" value="@Model.Client.UserName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailNew" class="form-label">Correo electrónico</label>
+                                <input name="emailNew" type="email" class="form-control" id="emailNew"
+                                aria-describedby="emailHelp" value="@Model.Client.Email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordNew" class="form-label">Contraseña</label>
+                                <input name="passwordNew" value="@Model.Client.Password" type="password" class="form-control"
+                                id="passwordNew">
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Teléfono</label>
+                                    <input name="phone" type="phone" class="form-control" id="phone"
+                                    aria-describedby="emailHelp" value="@Model.Client.Phone">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+                                    <input name="birthDate" value="@Model.Client.BirthDay" type="date" class="form-control"
+                                    id="birthDate" aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <input type="hidden" name="isAdmin" value="@Model.IsAdmin">
+                            <div class="mb-3">
+                                <label for="biography" class="form-label">Biografía</label>
+                                <textarea name="biography" class="form-control" id="biography"
+                                rows="3">@Model.Client.Description</textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input id="adminChbox" class="form-check-input" type="checkbox">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Soy administrador
+                                </label>
+                            </div>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text" id="basic-addon1">Código</span>
+                                <input name="adminCode" disabled id="adminCode" value="@Model.AdminCode" type="text"
+                                class="form-control" placeholder="Escribe el código de administrador" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 d-grid">
+                                    <a asp-page="/Index" class="btn btn-outline-danger mt-2">Cancelar</a>
+                                </div>
+                                <div class="col-md-6 d-grid">
+                                    <button id="SignInBtn" type="submit" asp-page-handler="SignUpResponse"
+                                class="btn btn-primary mt-2">Registrarme</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text text-muted">Los datos de contacto ayudarán a que otros usuarios puedan
+                            comunicarse
+                            contigo</small>
+                        @if (Model.IsCorrect != "Yes")
+                        {
+                            <div class="alert alert-danger mt-4" role="alert">
+                                @Model.ErrorMessage
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.View == "Success")
+        {
+            <div class="container">
+                <h1>success</h1>
+            </div>
+        }
     }
-    else if (Model.View == "Success")
-    {
-        <div class="container">
-            <h1>success</h1>
-        </div>
-    }
-}
+</div>
 
 @section Scripts {
 <script>
     $(document).ready(() => {
+
+        $(document).keypress(function (e) {
+            if (e.which === 13) {
+                $("#SignInBtn").first().click();
+            }
+        });
+
         const limitTextDescription = 240;
         $('.description').each(function () {
             $(this).text(function () {
@@ -156,20 +174,17 @@
             });
         });
 
-        $('#isAdmin').click(function () {
+        $('#adminChbox').click(function () {
             if ($(this).is(':checked')) {
                 $('#adminCode').prop('disabled', false);
-                var band = @Model.IsAdmin;
-                band = "true";
+                @Model.IsAdmin = "true";
             } else {
                 $('#adminCode').prop('disabled', true);
-                var band = @Model.IsAdmin;
-                band = "false";
+                @Model.IsAdmin = "false";
             }
         });
 
         $("#formdata").validate({
-            // Specify validation rules
             rules: {
                 email: {
                     required: true,
@@ -193,7 +208,6 @@
         });
 
         $("#formdataNewUser").validate({
-            // Specify validation rules
             rules: {
                 userNameNew: {
                     required: true,

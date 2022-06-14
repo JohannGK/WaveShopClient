@@ -13,9 +13,15 @@ public class ProductModel : PageModel
     [BindProperty]
     public Product ProductSelected { get; set; } = new Product();
     [BindProperty]
-    public User UserVentor { get; set; } = new User();
+    public List<Comment> Comments { get; set; } = new List<Comment>();
+    [BindProperty]
+    public User UserVentor { get; set; }
     [BindProperty]
     public string Quantity { get; set; } = "1";
+    [BindProperty]
+    public string IsCorrect { get; set; } = "Yes";
+    [BindProperty]
+    public string ErrorMessage { get; set; } = string.Empty;
 
     public ProductModel(ILogger<IndexModel> logger)
     {
@@ -43,10 +49,20 @@ public class ProductModel : PageModel
         }
     }
 
-    public async Task OnGet(string ID)
+    public async Task<ActionResult> OnGet(string ID)
     {
-        await GetProduct(ID);
-        await GetUserVentor(ProductSelected.IdVendor.ToString());
+        try
+        {
+            await GetProduct(ID);
+            await GetUserVentor(ProductSelected.IdVendor.ToString());
+            await GetComments(ID);
+            return Page();
+        }
+        catch (Exception)
+        {
+            return RedirectToPage("./Error", string.Empty, new { code = 500 });
+        }
+
     }
 
     private async Task<Product> GetProduct(string productId)
@@ -58,6 +74,15 @@ public class ProductModel : PageModel
         return ProductSelected;
     }
 
+    private async Task<List<Comment>> GetComments(string idProduct)
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/Comments/");
+        HttpResponseMessage response = await client.GetAsync($"{idProduct}");
+        if (response.IsSuccessStatusCode)
+            Comments = await response.Content.ReadAsAsync<List<Comment>>();
+        return Comments;
+    }
+
     private async Task<User> GetUserVentor(string userId)
     {
         var client = GetPreparedClient("https://localhost:7278/api/Users/");
@@ -67,43 +92,72 @@ public class ProductModel : PageModel
         return UserVentor;
     }
 
-    public async Task<IActionResult> OnPostBuyProduct(string idProduct, string productQuantity)
+    public async Task<ActionResult> OnPostBuyProduct(string idProduct, string productQuantity)
     {
-        await GetProduct(idProduct);
-        if (ProductSelected.StockQuantity >= Convert.ToInt32(productQuantity))
-            return RedirectToPage("./ShopNote", "UnitProductShow", new { id = idProduct, quantity = productQuantity });
-        else
-            await GetUserVentor(ProductSelected.IdVendor.ToString());
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPostAddShoppingCart(string idProduct, string productQuantity)
-    {
-        await GetProduct(idProduct);
-        if (ProductSelected.StockQuantity >= Convert.ToInt32(productQuantity))
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
         {
-            ProductSelected.StockQuantity = Convert.ToInt32(productQuantity);
-            var idUser = HttpContext.Session.GetString("id");
-            var client = GetPreparedClient("https://localhost:7278/api/Products/");
-            HttpResponseMessage response = await client.PostAsync
-            (
-                $"{idUser}",
-                new StringContent(JsonConvert.SerializeObject(ProductSelected), Encoding.UTF8, "application/json")
-            );
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return RedirectToPage("./ShoppingCart", "AddSuccess");
-            }
-            else
-            {
+                await GetProduct(idProduct);
                 await GetUserVentor(ProductSelected.IdVendor.ToString());
+                if (ProductSelected.StockQuantity < Convert.ToInt32(productQuantity))
+                    throw new Exception("Lo sentimos, no hay suficiente cantidad en el stock del producto");
+                return RedirectToPage("./ShopNote", "UnitProductShow", new { id = idProduct, quantity = productQuantity });
+            }
+            catch (Exception ex)
+            {
+                IsCorrect = "No";
+                ErrorMessage = ex.Message;
                 return Page();
             }
         }
         else
         {
-            await GetUserVentor(ProductSelected.IdVendor.ToString());
-            return Page();
+            return RedirectToPage("./SignInRequire");
+        }
+    }
+
+    public async Task<IActionResult> OnPostAddShoppingCart(string idProduct, string productQuantity)
+    {
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            try
+            {
+                await GetProduct(idProduct);
+                await GetUserVentor(ProductSelected.IdVendor.ToString());
+                if (ProductSelected.StockQuantity < Convert.ToInt32(productQuantity))
+                    throw new Exception("Lo sentimos, no hay suficiente cantidad en el stock del producto");
+                ProductSelected.StockQuantity = Convert.ToInt32(productQuantity);
+                var idUser = HttpContext.Session.GetString("id");
+                var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
+                HttpResponseMessage response = await client.PostAsync
+                (
+                    $"{idUser}",
+                    new StringContent(JsonConvert.SerializeObject(ProductSelected), Encoding.UTF8, "application/json")
+                );
+                if (response.IsSuccessStatusCode)
+                    return RedirectToPage("./Success", string.Empty, new { header = "Producto agregado al carrito", urlRedirection = "/ShoppingCart", urlTittle = "Ver carrito" });
+                else
+                    throw new Exception("500");
+            }
+            catch (Exception ex)
+            {
+                int code;
+                if (int.TryParse(ex.Message, out code))
+                {
+                    return RedirectToPage("./Error", string.Empty, new { code = int.Parse(ex.Message) });
+                }
+                else
+                {
+                    IsCorrect = "No";
+                    ErrorMessage = ex.Message;
+                    return Page();
+                }
+            }
+        }
+        else
+        {
+            return RedirectToPage("./SignInRequire");
         }
     }
 }

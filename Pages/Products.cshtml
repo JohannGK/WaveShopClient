@@ -6,11 +6,14 @@
 
 <style>
     .card:hover {
-        box-shadow: 10px 10px 5px lightblue;
+        background-color: #eeeeee;
+        transform: scale(1.1, 1.1);
         transition-duration: .3s;
     }
 
     .card {
+        background-color: white;
+        transform: scale(1);
         transition-duration: .3s;
         padding: 1em;
         font-size: small;
@@ -27,7 +30,7 @@
 </style>
 
 <div class="container-fuild d-flex align-items-center justify-content-center"
-    style="background-color: #3b51b1; align-items: center; text-align: center;">
+    style="background-color: #080F32; align-items: center; text-align: center;">
     <form class="container d-flex m-2">
         <input name="searchTxt" value="@Model.SearchValue" class="form-control me-2" type="search"
             placeholder="Encuentra lo que estas buscando!" aria-label="Search">
@@ -35,7 +38,7 @@
     </form>
 </div>
 
-<div class="container">
+<div class="container pt-3">
     @{
         var products = Model.ProductsList;
         if (products == null)
@@ -50,22 +53,22 @@
         {
             foreach (var product in products)
             {
-                <div class="productCard card m-3 rounded">
+                <div class="productCard card m-3 rounded shadow">
                     <div class="row g-0">
-                        <div class="col-md-2">
-                            <img src=@product.Product_Images.ToList()[0].Url class="img-fluid rounded-start" alt="...">
+                        <div class="col-md-2 p-3">
+                            <img style="width: 100%;" src=@product.Product_Images.ToList()[0].Url class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body m-0 p-0">
                                 <a asp-page="/Product" asp-route-ID="@product.Id"><h5 class="card-title mb-0">#@product.Id @product.Name</h5></a>
-                                <small style="color: blue;">Cantidad disponible: @product.StockQuantity</small>
+                                <small style="color: #080F32;">Cantidad disponible: @product.StockQuantity</small>
                                 <p id="productDescription" class="card-text description" style="text-align: justify;">Descripción:
                                     @product.Description</p>
                                 <p class="card-text"><small class="text-muted">Última actualización: @product.LastUpdate</small></p>
                             </div>
                         </div>
                         <div class="col-md-2" style="text-align: right;">
-                            <label class="text-center fs-3">@product.UnitPrice</label>
+                            <label class="text-center fs-3">$ @product.UnitPrice</label>
                         </div>
                     </div>
                 </div>

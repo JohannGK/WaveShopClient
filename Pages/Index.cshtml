@@ -5,56 +5,104 @@
   Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+<style>
+
+  .text-justify {
+    text-align: justify;
+  }
+
+  .functions{
+    background-color: white;
+    transition-duration: .3s;
+    transform: scale(1, 1);
+  }
+
+  .functions:hover{
+    background-color: #1B265C;
+    color: white;
+    transition-duration: .3s;
+    transform: scale(1.1, 1.1);
+  }
+</style>
+
 <div class="container-fuild d-flex align-items-center justify-content-center"
-  style="background-color: #3b51b1; align-items: center; text-align: center;">
+  style="background-color: #080F32;">
   <form method="get" class="container d-flex m-2">
-    <input name="searchTxt" class="form-control me-2" type="search" placeholder="Encuentra lo que estas buscando!" aria-label="Search">
+    <input name="searchTxt" class="form-control me-2" type="search" placeholder="Encuentra lo que estas buscando!"
+      aria-label="Search">
     <button class="btn btn-outline-light" type="submit" asp-page="/Products">Buscar</button>
   </form>
 </div>
 
-<div id="carouselExampleDark" class="container-fuid carousel carousel-dark slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true"
-      aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner" style="height: 20em;">
-    <div class="carousel-item active" data-bs-interval="10000">
-      <img
-        src="https://www.builderfly.com/wp-content/uploads/2019/08/modern-sale-banner-with-product-description_1361-1259.jpg"
-        class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
+<div class="container-fluid main">
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <img class="img-fluid" src="https://cdn.dribbble.com/users/2151922/screenshots/6969955/untitled-2.gif" alt="">
       </div>
-    </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img
-        src="https://www.builderfly.com/wp-content/uploads/2019/08/modern-sale-banner-with-product-description_1361-1259.jpg"
-        class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img
-        src="https://www.builderfly.com/wp-content/uploads/2019/08/modern-sale-banner-with-product-description_1361-1259.jpg"
-        class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Some representative placeholder content for the third slide.</p>
+      <div class="col-6">
+        <div class="card m-5 p-4 shadow">
+          <p class="text text-justify">
+            Puedes vender productos y contactarte con los compradores con la finalidad de incrementar tus ganancias,
+            solo
+            basta tu cuenta de usaurio y la información del producto a vender, tu tienes el control de las ventas, el
+            espacio para la venta de productos esgratuito y libre de ipuestos.
+          </p>
+          <div class="btn btn-outline-primary mt-4">Subir producto</div>
+        </div>
       </div>
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+</div>
+
+
+
+<div class="container-fluid" style="background-color: #080F32;">
+  <div class="container">
+    <div class="row p-5">
+      <div class="col-md-4">
+        <div class="card rounded shadow m-3 functions">
+          <div class="card-header">
+            <h5>Compra productos</h3>
+          </div>
+          <div class="card-body">
+            <img class="img-fluid" src="https://www.andean.host/wp-content/uploads/dribbble.gif" alt="">
+            <p class="text-justify">
+              Encuentra los productos que quieras escribiendo el nombre en la
+              barra de búsqueda
+            </p>
+          </div>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card rounded shadow m-3 functions">
+          <div class="card-header">
+            <h5>Agrega a favoritos</h5>
+          </div>
+          <div class="card-body">
+            <img class="img-fluid" src="https://i.pinimg.com/originals/d0/46/eb/d046eb1544f15526f5b95701993a1f50.gif" alt="">
+            <p class="text-justify">
+              Puedes marcar tus productos favoritos agregandolos a tu lista de preferencias
+            </p>
+          </div>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card rounded shadow m-3 functions">
+          <div class="card-header">
+            <h6>Agrega productos a tu carrito</h5>
+          </div>
+          <div class="card-body">
+            <img class="img-fluid" src="https://i.pinimg.com/originals/66/22/ab/6622ab37c6db6ac166dfec760a2f2939.gif" alt="">
+            <p class="text-justify">
+              Agrega tus productos al carrito para comprarlos solo con un click o un tap
+            </p>
+          </div>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -20,19 +20,57 @@ public class ShoppingCartModel : PageModel
         _logger = logger;
     }
 
-    public async Task OnGet()
+    public async Task<ActionResult> OnGet()
     {
-        var ID = HttpContext.Session.GetString("id");
-        View = "Request";
-        var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
-        HttpResponseMessage response = await client.GetAsync($"{ID}");
-        if (response.IsSuccessStatusCode)
-            Products = await response.Content.ReadAsAsync<List<Product>>();
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            try
+            {
+                var ID = HttpContext.Session.GetString("id");
+                View = "Request";
+                var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
+                HttpResponseMessage response = await client.GetAsync($"{ID}");
+                if (response.IsSuccessStatusCode)
+                {
+                    Products = await response.Content.ReadAsAsync<List<Product>>();
+                    return Page();
+                }
+                throw new Exception();                
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("./Error", string.Empty, new { code = 500 });
+            }
+        }
+        else
+        {
+            return RedirectToPage("./SignInRequire");
+        }
     }
 
-    public async Task OnGetAddSuccess()
+    public async Task<ActionResult> OnPostRemove(string ID)
     {
-        View = "AddSuccess";
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetString("id");
+                View = "Request";
+                var client = GetPreparedClient("https://localhost:7278/api/ShoppingCart/");
+                HttpResponseMessage response = await client.DeleteAsync($"{userId}/{ID}");
+                if (response.IsSuccessStatusCode)
+                    return RedirectToPage("./Success", string.Empty, new { header = "Producto removido", urlRedirection = "/ShoppingCart", urlTittle = "Ver carrito" });
+                return Page();
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("./Error", string.Empty, new { code = 500 });
+            }
+        }
+        else
+        {
+            return RedirectToPage("./SignInRequire");
+        }
     }
 
     public HttpClient? GetPreparedClient(string uri)

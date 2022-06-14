@@ -21,15 +21,31 @@ public class ShoppingsModel : PageModel
         _logger = logger;
     }
 
-    public async Task OnGet()
+    public async Task<ActionResult> OnGet()
     {
-        var client = GetPreparedClient("https://localhost:7278/api/Orders/");
-        var id = HttpContext.Session.GetString("id");
-        HttpResponseMessage response = await client.GetAsync($"{id}");
-        if (response.IsSuccessStatusCode)
-            ProductsSelected = await response.Content.ReadAsAsync<List<Product>>();
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            try
+            {
+                var client = GetPreparedClient("https://localhost:7278/api/Orders/");
+                var id = HttpContext.Session.GetString("id");
+                HttpResponseMessage response = await client.GetAsync($"{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    ProductsSelected = await response.Content.ReadAsAsync<List<Product>>();
+                    return Page();
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("./Error", string.Empty, new { code = 500 });
+            }
+        }
         else
-            ViewToShow = "Error";
+        {
+            return RedirectToPage("./SignInRequire");
+        }
     }
 
     public HttpClient? GetPreparedClient(string uri)

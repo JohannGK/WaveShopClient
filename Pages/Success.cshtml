@@ -1,0 +1,18 @@
+@page
+@model SuccessModel
+@{
+    ViewData["Title"] = "Login page";
+}
+
+
+<div class="container mt-5">
+    <h1 class="text-success">@Model.Header</h1>
+    <h2 class="text-dark">La operación se ha realizado exitosamente!</h2>
+
+    <p>
+        Ahora puedes continuar navegando <a style="text-decoration: none;" asp-page="@Model.UrlToRedirect"><strong>@Model.UrlTitle</strong></a>
+    </p>
+
+    <img class="img-fluid" src="https://www.flipchap.com/images/payment/success.gif" alt="">
+
+</div>

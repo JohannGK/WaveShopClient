@@ -58,3 +58,8 @@ C:\Users\johan\OneDrive\Escritorio\Proyectos\WaveShopClient\obj\Debug\net6.0\ref
 C:\Users\johan\OneDrive\Escritorio\Proyectos\WaveShopClient\obj\Debug\net6.0\WaveShopClient.pdb
 C:\Users\johan\OneDrive\Escritorio\Proyectos\WaveShopClient\obj\Debug\net6.0\WaveShopClient.genruntimeconfig.cache
 C:\Users\johan\OneDrive\Escritorio\Proyectos\WaveShopClient\obj\Debug\net6.0\ref\WaveShopClient.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Google.Apis.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Google.Apis.Auth.PlatformServices.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Google.Apis.Auth.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Google.Apis.Core.dll
+C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\bin\Debug\net6.0\Google.Apis.Drive.v3.dll
