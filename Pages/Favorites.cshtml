@@ -6,11 +6,14 @@
 
 <style>
     .card:hover {
-        box-shadow: 10px 10px 5px pink;
+        background-color: #eeeeee;
+        transform: scale(1.1, 1.1);
         transition-duration: .3s;
     }
 
     .card {
+        background-color: white;
+        transform: scale(1);
         transition-duration: .3s;
         padding: 1em;
         font-size: small;
@@ -19,34 +22,64 @@
     img {
         width: 7em;
     }
+
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    
+    a:hover{
+        color: #302a76;
+    }
+
+
+    .cmn-divfloat {
+        position: fixed !important;
+        bottom: 45px;
+        right: 15px;
+        z-index: 100;
+    }
+
+    .cmn-btncircle {
+        width: 250px !important;
+        height: 40px !important;
+        padding: 6px 0px;
+        border-radius: 15px;
+        font-size: 18px;
+        text-align: calc();
+    }
 </style>
 
 <div class="container">
-    @for (int i = 0; i < 10; i++)
-    {
-        <div class="card m-3 rounded">
-            <div class="row g-0">
-                <div class="col-md-2">
-                    <img src="https://cdn0.iconfinder.com/data/icons/creative-business-and-development/512/package_products_food_branding_merchandise_packaging_marketing_design_box_bottles_commercial_identity_flat_design_icon-512.png"
-                    class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body m-0 p-0">
-                        <h5 class="card-title mb-0">Nombre del producto</h5>
-                        <small style="color: blue;">Cantidad disponible: [Cantidad]</small>
-                        <p id="productDescription" class="card-text" style="text-align: justify;">Descripción: This is a
-                            wider card with supporting
-                            text
-                            below as a natural lead-in to additional
-                            content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Última actualización [Fecha]</small></p>
+    @{
+        @foreach (var p in @Model.Products)
+        {
+            <div class="card m-3 rounded shadow">
+                <div class="row g-0">
+                    <div class="col-md-2 p-3">
+                        <img style="width: 100%;" src="@p.Product_Images.ToList()[0].Url" class="img-fluid rounded-start"
+                        alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body m-0 p-0">
+                            <a asp-page="/Product" asp-route-ID="@p.Id">
+                                <h5 class="card-title mb-0">@p.Name</h5>
+                            </a>
+                            <small style="color: green;">Cantidad: @p.StockQuantity</small>
+                            <p id="productDescription" class="card-text" style="text-align: justify;">@p.Description</p>
+                            <p class="card-text"><small class="text-muted">Última actualización: @p.LastUpdate</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="text-align: right;">
+                        <label class="text-center fs-3">$ @p.UnitPrice</label>
+                        <form class="mt-3" method="post">
+                            <button asp-page-handler="Remove" asp-route-ID="@p.Id"
+                        class="btn btn-outline-danger">Remover</button>
+                        </form>
                     </div>
                 </div>
-                <div class="col-md-2" style="text-align: right;">
-                    <label class="text-center fs-3">[Costo]</label>
-                </div>
             </div>
-        </div>
+        }
     }
 </div>
 
@@ -57,7 +90,7 @@
         $('#productDescription').text(function () {
             var content = $(this).text();
             if (content.length > 280)
-                return content.substring(0,280) + '...';
+                return content.substring(0, 280) + '...';
             else
                 return $(this).text();
         });

@@ -1,0 +1,69 @@
+@page
+@model CategoryModel
+@{
+    ViewData["Title"] = "Category data";
+}
+
+<style>
+    .card:hover {
+        box-shadow: 10px 10px 5px palegoldenrod;
+        transition-duration: .3s;
+    }
+
+    .card {
+        transition-duration: .3s;
+        padding: 1em;
+    }
+
+    img {
+        width: 7em;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
+
+<div class="container col-md-8 col-sm-8 col-lg-4 mt-4">
+    @{
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h2>Categoría</h2>
+            </div>
+            <div class="card-body">
+                <form id="formdata" method="post">
+                    <div class="row">
+                        <label for="name" class="form-label">Nombre de la categoría</label>
+                        <input name="name" type="text" value="@Model.Generic.Name" class="form-control" id="name">
+                    </div>
+                    <div class="row mb-5">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea name="description" type="text" class="form-control" id="description">@Model.Generic.Description</textarea>
+                    </div>
+                    @if (Model.Type == "Update")
+                    {
+                        <button asp-page-handler="Update" asp-route-id="@Model.Generic.Id" style="width: 100%;"
+                    class="btn btn-outline-primary">Actualizar</button>
+                    }
+                    else
+                    {
+                        <button asp-page-handler="Add" style="width: 100%;" 
+                    class="btn btn-outline-primary">Agregar</button>
+                    }
+                </form>
+            </div>
+            <div class="card-footer pt-4">
+                <small>Estos campos fungirán como valores de búsqueda de los productos</small>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+<script>
+    $(document).ready(() => {
+
+    });
+</script>
+}

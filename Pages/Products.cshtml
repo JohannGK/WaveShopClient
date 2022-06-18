@@ -34,7 +34,14 @@
     <form class="container d-flex m-2">
         <input name="searchTxt" value="@Model.SearchValue" class="form-control me-2" type="search"
             placeholder="Encuentra lo que estas buscando!" aria-label="Search">
-        <button class="btn btn-outline-light" type="submit">Buscar</button>
+        <button class="btn btn-outline-light me-3" type="submit">Buscar</button>
+        <select name="category" style="width: 30%;" class="form-select" aria-label="Default select example">
+      <option value="0" selected>Todos</option>
+      @foreach (var item in @Model.Categories)
+      { 
+        <option value="@item.Id">@item.Name</option>
+      }
+    </select>
     </form>
 </div>
 

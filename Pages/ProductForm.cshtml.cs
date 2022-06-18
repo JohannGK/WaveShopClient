@@ -23,6 +23,8 @@ public class ProductFormModel : PageModel
     public string ErrorMessage { get; set; } = string.Empty;
     [BindProperty]
     public string Status { get; set; } = "Visible";
+    [BindProperty]
+    public List<Category> Categories { get; set; } = new List<Category>();
     private string PathRoute { get; set; }
     private readonly IWebHostEnvironment webHostEnvironment;
 
@@ -31,9 +33,18 @@ public class ProductFormModel : PageModel
         this.webHostEnvironment = webHostEnvironment;
     }
 
-    public void OnGet()
+    public async Task<ActionResult> OnGet()
     {
-        View = "Form";
+        try
+        {
+            View = "Form";
+            await GetCategories();
+            return Page();
+        }
+        catch (Exception)
+        {
+            return RedirectToPage("./Error", string.Empty, new { code = 500 });
+        }
     }
 
     public async Task<ActionResult> OnGetEdit(string idProduct)
@@ -43,6 +54,7 @@ public class ProductFormModel : PageModel
             try
             {
                 View = "FormUpdate";
+                await GetCategories();
                 ProductToSell = await GetProduct(idProduct);
                 return Page();
             }
@@ -67,7 +79,7 @@ public class ProductFormModel : PageModel
         return ProductToSell;
     }
 
-    public async Task<IActionResult> OnPostUpdate(string ID, List<IFormFile> filesList, string productName, string location, string country, string unitPrice, string stock, string status, string description)
+    public async Task<IActionResult> OnPostUpdate(string ID, List<IFormFile> filesList, string productName, string location, string country, string unitPrice, string stock, string status, string description, int category)
     {
         try
         {
@@ -76,6 +88,7 @@ public class ProductFormModel : PageModel
             ProductToSell.Name = productName;
             ProductToSell.Location = location;
             ProductToSell.Country = country;
+            ProductToSell.IdCategory = category;
             ProductToSell.UnitPrice = double.Parse(unitPrice);
             ProductToSell.StockQuantity = int.Parse(stock);
             ProductToSell.Status = status;
@@ -87,7 +100,7 @@ public class ProductFormModel : PageModel
             );
             CleanDirectory(PathRoute);
             if (response.IsSuccessStatusCode)
-                return RedirectToPage("./Success", string.Empty, new { header = "Producto registrado", urlRedirection = "/ProductSold", urlTittle = "Ver productos vendidos" });
+                return RedirectToPage("./Success", string.Empty, new { header = "Producto actualizado", urlRedirection = "/ProductsSold", urlTittle = "Ver productos vendidos" });
             IsCorrect = "No";
             JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
             ErrorMessage = json["value"]["error"].ToString();
@@ -109,7 +122,7 @@ public class ProductFormModel : PageModel
         }
     }
 
-    private Product GetObject(string productName, string location, string country, string unitPrice, string stock, string status, string description)
+    private Product GetObject(string productName, string location, string country, string unitPrice, string stock, string status, string description, int category)
     {
         Product product = new Product()
         {
@@ -123,7 +136,7 @@ public class ProductFormModel : PageModel
             Published = DateTime.Now,
             Country = country,
             Location = location,
-            IdCategory = -1,
+            IdCategory = category,
             IdVendor = int.Parse(HttpContext.Session.GetString("id")),
             LikesNumber = 0,
             DislikesNumber = 0,
@@ -135,12 +148,12 @@ public class ProductFormModel : PageModel
         return product;
     }
 
-    public async Task<IActionResult> OnPost(List<IFormFile> filesList, string productName, string location, string country, string unitPrice, string stock, string status, string description)
+    public async Task<IActionResult> OnPost(List<IFormFile> filesList, string productName, string location, string country, string unitPrice, string stock, string status, string description, int category)
     {
         try
         {
             View = "Form";
-            ProductToSell = GetObject(productName, location, country, unitPrice, stock, status, description);
+            ProductToSell = GetObject(productName, location, country, unitPrice, stock, status, description, category);
             if (filesList == null || filesList.Count <= 0)
                 throw new Exception("Debes subir un archivo");
             View = "Success";
@@ -153,17 +166,25 @@ public class ProductFormModel : PageModel
             );
             CleanDirectory(PathRoute);
             if (response.IsSuccessStatusCode)
+                return RedirectToPage("./Success", string.Empty, new { header = "Producto registrado", urlRedirection = "/ProductsSold", urlTittle = "Ver productos vendidos" });
+            IsCorrect = "No";
+            JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+            ErrorMessage = json["value"]["error"].ToString();
+            throw new Exception(ErrorMessage);
+        }
+        catch (Exception ex)
+        {
+            int code;
+            if (int.TryParse(ex.Message, out code))
             {
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Error", string.Empty, new { code = int.Parse(ex.Message) });
             }
             else
             {
+                IsCorrect = "No";
+                ErrorMessage = ex.Message;
                 return Page();
             }
-        }
-        catch (Exception)
-        {
-            return Page();
         }
     }
 
@@ -226,5 +247,14 @@ public class ProductFormModel : PageModel
         {
             return null;
         }
+    }
+
+    private async Task<List<Category>> GetCategories()
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/Categories/");
+        HttpResponseMessage response = await client.GetAsync($"");
+        if (response.IsSuccessStatusCode)
+            return Categories = await response.Content.ReadAsAsync<List<Category>>();
+        throw new Exception();
     }
 }

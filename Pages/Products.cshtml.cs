@@ -14,13 +14,15 @@ public class ProductsModel : PageModel
     public List<Product> ProductsList { get; set; } = new List<Product>();
     [BindProperty]
     public string SearchValue { get; set; } = string.Empty;
+    [BindProperty]
+    public List<Category> Categories { get; set; } = new List<Category>();
 
     public ProductsModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
     }
 
-    public HttpClient? GetPreparedClient()
+    public HttpClient? GetPreparedClient(string url)
     {
         try
         {
@@ -30,7 +32,7 @@ public class ProductsModel : PageModel
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
             };
             HttpClient client = new HttpClient(handler);
-            client.BaseAddress = new Uri("https://localhost:7278/api/Products/");
+            client.BaseAddress = new Uri(url);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
@@ -41,31 +43,46 @@ public class ProductsModel : PageModel
         }
     }
 
-    public async Task<ActionResult> OnGet(string searchTxt)
+    public async Task<ActionResult> OnGet(string searchTxt, int category)
     {
         SearchValue = searchTxt;
         try
         {
-            var client = GetPreparedClient();
-            if (client != null)
+            if (string.IsNullOrEmpty(searchTxt))
             {
-                HttpResponseMessage response = await client.GetAsync($"-1/{searchTxt}");
-                if (response.IsSuccessStatusCode)
-                    ProductsList = await response.Content.ReadAsAsync<List<Product>>();
-                else
-                    throw new Exception("500");
+                ProductsList = new List<Product>();
                 return Page();
             }
             else
             {
-                throw new Exception("500");
+                await GetCategories();
+                await GetProducts(category, searchTxt);
+                return Page();
             }
         }
         catch (Exception ex)
         {
-            return RedirectToPage("./Error", string.Empty, new { code = int.Parse(ex.Message) });
+            return RedirectToPage("./Error", string.Empty, new { code = 500 });
         }
     }
 
+    public async Task<List<Product>> GetProducts(int category, string searchTxt)
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/Products/");
+        HttpResponseMessage response = await client.GetAsync($"{category}/{searchTxt}");
+        if (response.IsSuccessStatusCode)
+            return ProductsList = await response.Content.ReadAsAsync<List<Product>>();
+        else
+            throw new Exception("500");
+    }
+
+    private async Task<List<Category>> GetCategories()
+    {
+        var client = GetPreparedClient("https://localhost:7278/api/Categories/");
+        HttpResponseMessage response = await client.GetAsync($"");
+        if (response.IsSuccessStatusCode)
+            return Categories = await response.Content.ReadAsAsync<List<Category>>();
+        throw new Exception();
+    }
 
 }

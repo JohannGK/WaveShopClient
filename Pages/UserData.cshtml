@@ -1,0 +1,135 @@
+@page
+@model UserDataModel
+@{
+    ViewData["Title"] = "User data";
+}
+
+<style>
+    .card:hover {
+        box-shadow: 10px 10px 5px palegoldenrod;
+        transition-duration: .3s;
+    }
+
+    .card {
+        transition-duration: .3s;
+        padding: 1em;
+    }
+
+    img {
+        width: 7em;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
+
+<div class="container col-md-8 col-sm-8 col-lg-4 mt-4">
+    @{
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h2>Usuario: #@Model.Generic.Id @Model.Generic.UserName</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <b> Email: </b>
+                    </div>
+                    <div class="col-8">
+                         @Model.Generic.Email
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Teléfono: </b>
+                    </div>
+                    <div class="col-8">
+                         @Model.Generic.Phone
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Cumpleaños: </b>
+                    </div>
+                    <div class="col-8">
+                         @Model.Generic.BirthDay
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Edad: </b>
+                    </div>
+                    <div class="col-8">
+                         @Model.Generic.Age
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Topo de usuario: </b>
+                    </div>
+                    <div class="col-8">
+                         @Model.Generic.UserType
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Status: </b>
+                    </div>
+                    <div class="col-8">
+                         @Model.Generic.Status
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Reputación: </b>
+                    </div>
+                    <div class="col-8">
+                        @if(@Model.Generic.Reputation == "Good"){
+                            <p style="color: green;">Buena</p>
+                        }else{
+                            <p style="color: red;">Mala</p>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <b> Actualización: </b>
+                    </div>
+                    <div class="col-8">
+                        @Model.Generic.LastUpdate
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mt-4">
+                        <b> Biografía: </b>
+                    </div>
+                    <div class="mt-2">
+                        @Model.Generic.Description
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer pt-4">
+                @if(Model.UserType == "Administrador"){
+                    if(Model.Generic.Status != "Banned"){
+                        <form method="post" style="width: 100%;">
+                            <button asp-page-handler="Banned" style="width: 100%;" asp-route-id="@Model.Generic.Id" class="btn btn-outline-danger">Dar de baja</button>
+                        </form>
+                    }else{
+                        <form method="post" style="width: 100%;">
+                            <button asp-page-handler="Active" asp-route-id="@Model.Generic.Id" style="width: 100%;" class="btn btn-success">Dar de alta </button>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+<script>
+    $(document).ready(() => {
+
+    });
+</script>
+}

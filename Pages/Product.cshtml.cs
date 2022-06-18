@@ -22,6 +22,8 @@ public class ProductModel : PageModel
     public string IsCorrect { get; set; } = "Yes";
     [BindProperty]
     public string ErrorMessage { get; set; } = string.Empty;
+    [BindProperty]
+    public string CategoryProduct { get; set; } = "Publicación libre";
 
     public ProductModel(ILogger<IndexModel> logger)
     {
@@ -56,6 +58,8 @@ public class ProductModel : PageModel
             await GetProduct(ID);
             await GetUserVentor(ProductSelected.IdVendor.ToString());
             await GetComments(ID);
+            var category = await GetCategory(ProductSelected.IdCategory);
+            CategoryProduct = string.IsNullOrEmpty(category) ? "Libre" : category;
             return Page();
         }
         catch (Exception)
@@ -72,6 +76,23 @@ public class ProductModel : PageModel
         if (response.IsSuccessStatusCode)
             ProductSelected = await response.Content.ReadAsAsync<Product>();
         return ProductSelected;
+    }
+
+    private async Task<string> GetCategory(int? id)
+    {
+        try
+        {
+            var client = GetPreparedClient("https://localhost:7278/api/Categories/detail/");
+            HttpResponseMessage response = await client.GetAsync($"{id}");
+            if (response.IsSuccessStatusCode)
+                return CategoryProduct = (await response.Content.ReadAsAsync<Category>()).Name;
+            else
+                return string.Empty;
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
     }
 
     private async Task<List<Comment>> GetComments(string idProduct)
@@ -153,6 +174,30 @@ public class ProductModel : PageModel
                     ErrorMessage = ex.Message;
                     return Page();
                 }
+            }
+        }
+        else
+        {
+            return RedirectToPage("./SignInRequire");
+        }
+    }
+
+    public async Task<IActionResult> OnGetAddFav(int idProduct)
+    {
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+        {
+            try
+            {
+                var idUser = HttpContext.Session.GetString("id");
+                var client = GetPreparedClient("https://localhost:7278/api/Favorites/");
+                HttpResponseMessage response = await client.PostAsync($"{idUser}/{idProduct}", null);
+                if (response.IsSuccessStatusCode)
+                    return RedirectToPage("./Success", string.Empty, new { header = "Producto agregado a favoritos", urlRedirection = "/Favorites", urlTittle = "Ver favoritos" });
+                throw new Exception("500");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("./Error", string.Empty, new { code = 500 });
             }
         }
         else

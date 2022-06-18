@@ -62,7 +62,7 @@ public class ProfileModel : PageModel
             {
                 Client = await response.Content.ReadAsAsync<User>();
                 if (SetSession())
-                    return RedirectToPage("./Index");
+                    return RedirectToPage("./Success", string.Empty, new { header = "Tu perfil se ha actualizado!", urlRedirection = "/Index", urlTittle = "Inicio" });
                 else
                     throw new Exception("401");
             }
@@ -109,6 +109,7 @@ public class ProfileModel : PageModel
             HttpContext.Session.Set("password", Encoding.UTF8.GetBytes(Client.Password));
             HttpContext.Session.Set("username", Encoding.UTF8.GetBytes(Client.UserName));
             HttpContext.Session.Set("id", Encoding.UTF8.GetBytes(Client.Id.ToString()));
+            HttpContext.Session.Set("type", Encoding.UTF8.GetBytes(Client.UserType.ToString()));
             return true;
         }
         catch (Exception)
@@ -140,6 +141,7 @@ public class ProfileModel : PageModel
         HttpContext.Session.Set("password", Encoding.UTF8.GetBytes(string.Empty));
         HttpContext.Session.Set("username", Encoding.UTF8.GetBytes(string.Empty));
         HttpContext.Session.Set("id", Encoding.UTF8.GetBytes(string.Empty));
+        HttpContext.Session.Set("type", Encoding.UTF8.GetBytes(string.Empty));
         return RedirectToPage("./Index");
     }
 

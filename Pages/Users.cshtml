@@ -1,0 +1,97 @@
+@page
+@model UsersModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+<style>
+    .card:hover {
+        box-shadow: 10px 10px 5px palegoldenrod;
+        transition-duration: .3s;
+    }
+
+    .card {
+        transition-duration: .3s;
+        padding: 1em;
+        font-size: small;
+    }
+
+    img {
+        width: 7em;
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+
+    .cmn-divfloat {
+        position: fixed !important;
+        bottom: 45px;
+        right: 15px;
+        z-index: 100;
+    }
+
+    .cmn-btncircle {
+        width: 250px !important;
+        height: 40px !important;
+        padding: 6px 0px;
+        border-radius: 15px;
+        font-size: 18px;
+        text-align: calc();
+    }
+</style>
+
+<div class="container card shadow-lg mt-4">
+    @{
+        <div class="card-header">
+            <h2></h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover mt-4">
+                <thead>
+                    <tr>
+                        <th>#Id</th>
+                        <th>Nombre del usuario</th>
+                        <th>Email</th>
+                        <th>Reputación</th>
+                        <th>Última actualización</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in @Model.Users)
+                    {
+                        <tr>
+                            <td><a asp-page="/UserData" asp-route-id="@user.Id"> @user.Id </a></td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.Reputation == "Good")
+                                {
+                                    <p style="color: Green;">Buena</p>
+                                }
+                                else
+                                {
+                                    <p style="color: Red;">Mala</p>
+                                }
+                            </td>
+                            <td>@user.LastUpdate</td>
+                            <td>@user.Phone</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+</div>
+
+
+@section Scripts {
+<script>
+    $(document).ready(() => {
+
+    });
+</script>
+}

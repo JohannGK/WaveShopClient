@@ -73,7 +73,7 @@ namespace WaveShopClient
                     }
                     var response = request.ResponseBody;
                     returnValue = $"https://drive.google.com/uc?id={response.Id}";
-                    service.Permissions.Create(new Permission() { Type = "anyone", Role = "writer" }, response.Id).Execute(); //Creating Permission after folder creation.
+                    service.Permissions.Create(new Permission() { Type = "anyone", Role = "writer" }, response.Id).Execute(); 
                 }
                 return returnValue;
             }

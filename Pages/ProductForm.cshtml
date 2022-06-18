@@ -66,6 +66,13 @@
             <div class="card shadow-lg">
                 <div class="card-header">
                     <label class="text fs-2">Detalles del producto</label>
+                    <select form="formdata" name="category"  style="width: 30%; display: inline-block;" class="form-select m-1" aria-label="Default select example">
+                        <option value="0" selected>Ninguna</option>
+                        @foreach (var item in @Model.Categories)
+                        { 
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
                 </div>
                 <div class="card-body">
 

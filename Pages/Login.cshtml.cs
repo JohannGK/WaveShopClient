@@ -52,12 +52,28 @@ public class LoginModel : PageModel
             HttpContext.Session.Set("password", Encoding.UTF8.GetBytes(Client.Password));
             HttpContext.Session.Set("username", Encoding.UTF8.GetBytes(Client.UserName));
             HttpContext.Session.Set("id", Encoding.UTF8.GetBytes(Client.Id.ToString()));
+            HttpContext.Session.Set("type", Encoding.UTF8.GetBytes(Client.UserType.ToString()));
             return true;
         }
         catch (Exception)
         {
             return false;
         }
+    }
+
+    private bool CheckUser(User client, string pass)
+    {
+        bool band = true;
+        if (client.Password != pass)
+        {
+            ErrorMessage = "Verifica que la contraseña pertenezca al correo ingresado";
+            band = false;
+        }else if (client.Status == "Banned")
+        {
+            ErrorMessage = "Lo sentimos, parece que has sido baneado por un administrador, portate bien para la próxima";
+            band = false;
+        }
+        return band;
     }
 
     public async Task<IActionResult> OnPostSignInResponse(string email, string password)
@@ -69,10 +85,10 @@ public class LoginModel : PageModel
             if (response.IsSuccessStatusCode)
             {
                 Client = await response.Content.ReadAsAsync<User>();
-                if (Client.Password == password)
+                if (CheckUser(Client, password))
                 {
                     if (SetSession())
-                        return RedirectToPage("./Index");
+                        return RedirectToPage("./Success", string.Empty, new { header = "Bienvenido!!!", urlRedirection = "/Index", urlTittle = "Inicio" });
                     else
                         throw new Exception("401");
                 }
@@ -114,7 +130,7 @@ public class LoginModel : PageModel
             Phone = phone,
             Status = "Active",
             BirthDay = Convert.ToDateTime(birthDate),
-            UserType = isAdmin == "true" ? "Administrador" : "Usuario",
+            UserType = isAdmin == "true" ? "Administrador" : "Cliente",
             Description = biography,
             Reputation = "Good",
             Age = Convert.ToInt32(t.TotalDays / 365)
@@ -128,7 +144,7 @@ public class LoginModel : PageModel
         {
             View = "SignUp";
             Client = GetObject(userNameNew, emailNew, passwordNew, phone, birthDate, isAdmin, biography, adminCode);
-            CheckUserData(Client);
+            CheckUserData(Client, adminCode);
             var client = GetPreparedClient("https://localhost:7278/api/Users/");
             HttpResponseMessage response = await client.PostAsync(
                 $"",
@@ -138,7 +154,7 @@ public class LoginModel : PageModel
             {
                 Client = await response.Content.ReadAsAsync<User>();
                 if (SetSession())
-                    return RedirectToPage("./Index");
+                    return RedirectToPage("./Success", string.Empty, new { header = "Bienvenido!!!", urlRedirection = "/Index", urlTittle = "Inicio" });
                 else
                     throw new Exception("401");
             }
@@ -171,7 +187,7 @@ public class LoginModel : PageModel
         if (user.Age < 18)
             throw new Exception("Para registrarte debes tener al menos 18 años");
         if (user.UserType == "Administrador")
-            if (adminCode == null || adminCode != "1324")
+            if (string.IsNullOrEmpty(adminCode) || adminCode != "113")
                 throw new Exception("Lo sentimos, el código de administrador no es correcto");
     }
 

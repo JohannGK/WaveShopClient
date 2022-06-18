@@ -6,18 +6,17 @@
 }
 
 <style>
-
   .text-justify {
     text-align: justify;
   }
 
-  .functions{
+  .functions {
     background-color: white;
     transition-duration: .3s;
     transform: scale(1, 1);
   }
 
-  .functions:hover{
+  .functions:hover {
     background-color: #1B265C;
     color: white;
     transition-duration: .3s;
@@ -25,12 +24,18 @@
   }
 </style>
 
-<div class="container-fuild d-flex align-items-center justify-content-center"
-  style="background-color: #080F32;">
+<div class="container-fuild d-flex align-items-center justify-content-center" style="background-color: #080F32;">
   <form method="get" class="container d-flex m-2">
     <input name="searchTxt" class="form-control me-2" type="search" placeholder="Encuentra lo que estas buscando!"
       aria-label="Search">
-    <button class="btn btn-outline-light" type="submit" asp-page="/Products">Buscar</button>
+    <button class="btn btn-outline-light me-3" type="submit" asp-page="/Products">Buscar</button>
+    <select name="category" style="width: 30%;" class="form-select" aria-label="Default select example">
+      <option value="0" selected>Todos</option>
+      @foreach (var item in @Model.Categories)
+      { 
+        <option value="@item.Id">@item.Name</option>
+      }
+    </select>
   </form>
 </div>
 
@@ -81,7 +86,8 @@
             <h5>Agrega a favoritos</h5>
           </div>
           <div class="card-body">
-            <img class="img-fluid" src="https://i.pinimg.com/originals/d0/46/eb/d046eb1544f15526f5b95701993a1f50.gif" alt="">
+            <img class="img-fluid" src="https://i.pinimg.com/originals/d0/46/eb/d046eb1544f15526f5b95701993a1f50.gif"
+              alt="">
             <p class="text-justify">
               Puedes marcar tus productos favoritos agregandolos a tu lista de preferencias
             </p>
@@ -95,7 +101,8 @@
             <h6>Agrega productos a tu carrito</h5>
           </div>
           <div class="card-body">
-            <img class="img-fluid" src="https://i.pinimg.com/originals/66/22/ab/6622ab37c6db6ac166dfec760a2f2939.gif" alt="">
+            <img class="img-fluid" src="https://i.pinimg.com/originals/66/22/ab/6622ab37c6db6ac166dfec760a2f2939.gif"
+              alt="">
             <p class="text-justify">
               Agrega tus productos al carrito para comprarlos solo con un click o un tap
             </p>
