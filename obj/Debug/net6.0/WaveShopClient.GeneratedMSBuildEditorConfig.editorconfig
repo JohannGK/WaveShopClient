@@ -8,109 +8,109 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WaveShopClient
 build_property.RootNamespace = WaveShopClient
-build_property.ProjectDir = C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\
+build_property.ProjectDir = c:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient
+build_property.MSBuildProjectDirectory = c:\Users\josue\OneDrive\Documentos\GitHub\WaveShopClient
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Categories.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Categories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Category.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Category.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Error.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Favorites.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Favorites.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmF2b3JpdGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Index.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Login.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Permisses.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Permisses.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVybWlzc2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Privacy.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Product.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Product.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ProductForm.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ProductForm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdEZvcm0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Products.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Products.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ProductSoldDetails.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ProductSoldDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdFNvbGREZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ProductsSold.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ProductsSold.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNTb2xkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Profile.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ShopNote.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ShopNote.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hvcE5vdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ShoppingCart.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/ShoppingCart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hvcHBpbmdDYXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Shoppings.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Shoppings.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hvcHBpbmdzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/SignInRequire.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/SignInRequire.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2lnbkluUmVxdWlyZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Success.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Success.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3VjY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/UserData.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/UserData.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckRhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Users.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/_ViewImports.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/_ViewStart.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Shared/_Layout.cshtml]
+[c:/Users/josue/OneDrive/Documentos/GitHub/WaveShopClient/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-k9n61sb9rf
