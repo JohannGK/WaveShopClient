@@ -190,9 +190,9 @@ public class ProductFormModel : PageModel
 
     private async Task<List<Product_Image>?> UploadImages(List<IFormFile> files)
     {
-        List<Product_Image> images = new List<Product_Image>();
-        if (files != null && files.Count > 0)
+        try
         {
+            List<Product_Image> images = new List<Product_Image>();
             foreach (IFormFile item in files)
             {
                 PathRoute = Path.Combine(webHostEnvironment.WebRootPath, "Upload");
@@ -210,9 +210,9 @@ public class ProductFormModel : PageModel
             }
             return images;
         }
-        else
+        catch (Exception)
         {
-            return null;
+            throw new Exception("500");
         }
     }
 
